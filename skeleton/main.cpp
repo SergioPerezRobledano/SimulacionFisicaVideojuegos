@@ -31,6 +31,11 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 
+physx::PxTransform* pos = new PxTransform({ 0,0,0 });
+physx::PxShape* s;
+physx::PxVec4 col;
+
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -45,6 +50,13 @@ void initPhysics(bool interactive)
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	s = CreateShape(PxSphereGeometry(10));
+
+	 RenderItem* Sphere = new RenderItem(s, pos, col);
+
+
+
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
@@ -63,7 +75,6 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 }
@@ -73,7 +84,7 @@ void stepPhysics(bool interactive, double t)
 void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
-
+	
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
