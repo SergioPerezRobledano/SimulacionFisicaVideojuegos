@@ -3,7 +3,7 @@
 #include <PxPhysicsAPI.h>
 
 #include <vector>
-
+#include "Vector3DSIM.h"
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
@@ -30,10 +30,22 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
+Vector3DSIM* ejex = new Vector3DSIM(1.0, 0.0, 0.0);
+Vector3DSIM* ejey = new Vector3DSIM(0.0, 1.0, 0.0);
+Vector3DSIM* ejez = new Vector3DSIM(0.0, 0.0, 1.0);
 
 physx::PxTransform* pos = new PxTransform({ 0,0,0 });
+physx::PxTransform* posx = new PxTransform({ 10,0,0 });
+physx::PxTransform* posy = new PxTransform({ 0,10,0 });
+physx::PxTransform* posz = new PxTransform({ 0,0,10 });
+
+physx::PxVec4 col(1,1,1,1);
+physx::PxVec4 colx(1,0,0,1);
+physx::PxVec4 coly(0,1,0,1);
+physx::PxVec4 colz(0,0,1,1);
+
 physx::PxShape* s;
-physx::PxVec4 col;
+
 
 
 // Initialize physics engine
@@ -51,9 +63,12 @@ void initPhysics(bool interactive)
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
-	s = CreateShape(PxSphereGeometry(10));
+	s = CreateShape(PxSphereGeometry(2));
 
 	 RenderItem* Sphere = new RenderItem(s, pos, col);
+	 RenderItem* x = new RenderItem(s, posx, colx);
+	 RenderItem* y = new RenderItem(s, posy, coly);
+	 RenderItem* z = new RenderItem(s, posz, colz);
 
 
 

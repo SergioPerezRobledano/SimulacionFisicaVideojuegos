@@ -43,5 +43,11 @@ public:
 		y = y - v.y;
 		z = z - v.z;
 	}
+	Vector3DSIM operator =(const Vector3DSIM& p) {
+		x = p.x;
+		y = p.y;
+		z = p.z;
+		return *this;
+	}
 };
 
