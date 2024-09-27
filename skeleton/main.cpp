@@ -69,7 +69,8 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	 p = new Particle(pos,vel, s);
+	 p = new Particle(pos,vel, s,0.90);
+	 p->setACeleration({0, 1, 0});
 
 
 	
