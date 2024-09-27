@@ -7,6 +7,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
+#include "Particle.h"
 
 #include <iostream>
 
@@ -34,7 +35,7 @@ Vector3DSIM* ejex = new Vector3DSIM(1.0, 0.0, 0.0);
 Vector3DSIM* ejey = new Vector3DSIM(0.0, 1.0, 0.0);
 Vector3DSIM* ejez = new Vector3DSIM(0.0, 0.0, 1.0);
 
-physx::PxTransform* pos = new PxTransform({ 0,0,0 });
+Vector3 pos = { 0,0,0 };
 physx::PxTransform* posx = new PxTransform({ 10,0,0 });
 physx::PxTransform* posy = new PxTransform({ 0,10,0 });
 physx::PxTransform* posz = new PxTransform({ 0,0,10 });
@@ -44,7 +45,10 @@ physx::PxVec4 colx(1,0,0,1);
 physx::PxVec4 coly(0,1,0,1);
 physx::PxVec4 colz(0,0,1,1);
 
+Vector3 vel(1, 0, 0);
+
 physx::PxShape* s;
+Particle* p = nullptr;
 
 
 
@@ -65,10 +69,16 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	 RenderItem* Sphere = new RenderItem(s, pos, col);
-	 RenderItem* x = new RenderItem(s, posx, colx);
-	 RenderItem* y = new RenderItem(s, posy, coly);
-	 RenderItem* z = new RenderItem(s, posz, colz);
+	 p = new Particle(pos,vel, s);
+
+
+	
+
+	 //RenderItem* Sphere = new RenderItem(s, pos, col);
+	 //
+	 //RenderItem* x = new RenderItem(s, posx, colx);
+	 //RenderItem* y = new RenderItem(s, posy, coly);
+	 //RenderItem* z = new RenderItem(s, posz, colz);
 
 
 
@@ -92,6 +102,7 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	p->integrate(t);
 }
 
 // Function to clean data

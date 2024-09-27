@@ -32,6 +32,7 @@ public:
 		return v.x * x + v.y * y + v.z * z;
 	}
 
+
 	Vector3DSIM operator +(const Vector3DSIM& v) {
 		x = x + v.x;
 		y = y + v.y;
