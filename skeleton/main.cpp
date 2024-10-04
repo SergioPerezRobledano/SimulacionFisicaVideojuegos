@@ -1,13 +1,15 @@
 #include <ctype.h>
 
 #include <PxPhysicsAPI.h>
-
+#include <iostream>
 #include <vector>
 #include "Vector3DSIM.h"
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include "Particle.h"
+//#include "Particle.h"
+#include "Proyectil.h"
+
 
 #include <iostream>
 
@@ -48,7 +50,10 @@ physx::PxVec4 colz(0,0,1,1);
 Vector3 vel(1, 0, 0);
 
 physx::PxShape* s;
-Particle* p = nullptr;
+//Particle* p ;
+vector<Proyectil*>canon;
+
+
 
 
 
@@ -69,8 +74,7 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	 p = new Particle(pos,vel, s,0.998);
-	 p->setACeleration({0, 1, 0});
+	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
 
 	
@@ -103,7 +107,8 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	p->integrate(t);
+	for (auto e : canon)e->Disparo(t);
+	//p->integrate(t);
 }
 
 // Function to clean data
@@ -131,7 +136,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch(toupper(key))
 	{
-	//case 'B': break;
+	case 'P': {
+		canon.push_back(new Proyectil(250.0,6,camera.p));
+	}
 	//case ' ':	break;
 	case ' ':
 	{

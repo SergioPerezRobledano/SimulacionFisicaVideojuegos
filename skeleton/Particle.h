@@ -4,13 +4,14 @@ using namespace physx;
 class Particle
 {
 public:
-	Particle(Vector3 pos, Vector3 Vel, physx::PxShape* s,double d)  {
+	Particle(Vector3 pos, Vector3 Vel, Vector3 a,double d)  {
+		ac = a;
 		dumping = d;
 		vel = Vel;
 		ac = Vector3(0, 0, 0);
 		pose = PxTransform(pos);
 		physx::PxVec4 col(1, 1, 1, 1);
-		renderItem = new RenderItem(s, &pose, col);
+		renderItem = new RenderItem(CreateShape(PxSphereGeometry(2)), &pose, col);
 	};
 	~Particle() {
 		renderItem = nullptr;
@@ -26,6 +27,7 @@ public:
 	Vector3 getVel() { return vel; }
 
 private:
+
 	double dumping;
 	Vector3 vel;
 	Vector3 ac;
