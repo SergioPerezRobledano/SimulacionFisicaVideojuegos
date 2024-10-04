@@ -23,6 +23,8 @@ public:
 		ac = a;
 	};
 
+	Vector3 getVel() { return vel; }
+
 private:
 	double dumping;
 	Vector3 vel;
