@@ -137,7 +137,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
-		canon.push_back(new Proyectil(250.0,6,camera.p));
+		canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
 	//case ' ':	break;
 	case ' ':

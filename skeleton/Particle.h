@@ -8,10 +8,9 @@ public:
 		ac = a;
 		dumping = d;
 		vel = Vel;
-		ac = Vector3(0, 0, 0);
 		pose = PxTransform(pos);
 		physx::PxVec4 col(1, 1, 1, 1);
-		renderItem = new RenderItem(CreateShape(PxSphereGeometry(2)), &pose, col);
+		renderItem = new RenderItem(CreateShape(PxSphereGeometry(1)), &pose, col);
 	};
 	~Particle() {
 		renderItem = nullptr;
