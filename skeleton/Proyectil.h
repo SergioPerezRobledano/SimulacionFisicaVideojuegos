@@ -20,7 +20,7 @@ public:
 	}
 
 	void ajusteGravedad() {
-		gS = pow(velS, 2) * gr/ velR;
+		gS = pow(velS, 2) * gr/ pow(velR,2);
 	}
 
 	void Disparo(double t) {

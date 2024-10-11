@@ -8,7 +8,9 @@
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 //#include "Particle.h"
-#include "Proyectil.h"
+//#include "Proyectil.h"
+#include "SisParticulas.h"
+
 
 
 #include <iostream>
@@ -50,8 +52,10 @@ physx::PxVec4 colz(0,0,1,1);
 Vector3 vel(1, 0, 0);
 
 physx::PxShape* s;
+
+SisParticulas sistema;
 //Particle* p ;
-vector<Proyectil*>canon;
+//vector<Proyectil*>canon;
 
 
 
@@ -107,7 +111,8 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	for (auto e : canon)e->Disparo(t);
+	sistema.update(t);
+	//for (auto e : canon)e->Disparo(t);
 	//p->integrate(t);
 }
 
@@ -137,7 +142,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
-		canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
+		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
 	//case ' ':	break;
 	case ' ':

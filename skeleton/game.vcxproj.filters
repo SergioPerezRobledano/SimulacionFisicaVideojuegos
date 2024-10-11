@@ -13,6 +13,8 @@
     <ClCompile Include="Vector3DSIM.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Proyectil.cpp" />
+    <ClCompile Include="SisParticulas.cpp" />
+    <ClCompile Include="Generador.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -27,6 +29,8 @@
     <ClInclude Include="Vector3DSIM.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Proyectil.h" />
+    <ClInclude Include="SisParticulas.h" />
+    <ClInclude Include="Generador.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

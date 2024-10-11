@@ -25,6 +25,8 @@ public:
 
 	Vector3 getVel() { return vel; }
 
+	Vector3 getPos() { return pose.p; }
+
 private:
 
 	double dumping;
