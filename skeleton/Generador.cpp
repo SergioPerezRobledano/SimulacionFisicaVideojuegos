@@ -3,12 +3,24 @@
 
 void Generador::update(double t)
 {
+	tiempototal += t;
 	list<Particle*> p;
-	particulas.push_back(new Particle(iniPos, Vector3(generateGausssian(0.0,2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, -9.8, 0), 0.998));
+	Particle* aux= new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, -9.8, 0), 0.998);
+	aux->settiempo(tiempototal);
+	particulas.push_back(aux);
+	
+	
+	p.clear();
 	for (auto e : particulas) {
 		e->integrate(t);
-	Vector3 lim = e->getPos() - iniPos;
-		if (lim.y >= AREA_Y || lim.x >= AREA_X)p.push_back(e);
+		if (tiempototal >= e->tiempo()) {
+			p.push_back(e);
+		}
+		else {
+			Vector3 lim = e->getPos() - iniPos;
+			if (lim.y >= AREA_Y || lim.x >= AREA_X)p.push_back(e);
+		}
+	
 	}
 	for (auto d : p) {
 		particulas.remove(d);

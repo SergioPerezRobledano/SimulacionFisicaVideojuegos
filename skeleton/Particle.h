@@ -1,6 +1,6 @@
 #include "RenderUtils.hpp"
 using namespace physx;
-
+const double VIDA = 3.0;
 class Particle
 {
 public:
@@ -25,10 +25,15 @@ public:
 
 	Vector3 getVel() { return vel; }
 
+	double tiempo() { return tvida; }
+
+	void settiempo(double t) { tvida=t+VIDA; }
+
+
 	Vector3 getPos() { return pose.p; }
 
 private:
-
+	double tvida;
 	double dumping;
 	Vector3 vel;
 	Vector3 ac;

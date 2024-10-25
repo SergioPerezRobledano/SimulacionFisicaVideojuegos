@@ -6,7 +6,7 @@ using namespace std;
 class Generador
 {
 public:
-	Generador(Vector3 p) :iniPos(p) {};
+	Generador(Vector3 p) :iniPos(p),tiempototal(0.0) {};
 	~Generador();
 
 	void update(double t);
@@ -15,5 +15,6 @@ public:
 private:
 	Vector3 iniPos;
 	list<Particle*>particulas;
+	double tiempototal;
 };
 
