@@ -261,6 +261,7 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="SisFuerzas.cpp" />
     <ClCompile Include="SisParticulas.cpp" />
     <ClCompile Include="Vector3DSIM.cpp" />
   </ItemGroup>
@@ -273,6 +274,7 @@
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="SisFuerzas.h" />
     <ClInclude Include="SisParticulas.h" />
     <ClInclude Include="Vector3DSIM.h" />
   </ItemGroup>

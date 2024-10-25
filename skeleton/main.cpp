@@ -78,6 +78,7 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
+	sistema.addGenerator(Vector3(50, 0, 0),NORMAL);
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
 

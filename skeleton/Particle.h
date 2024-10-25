@@ -14,7 +14,6 @@ public:
 	};
 	~Particle() {
 		renderItem = nullptr;
-		delete renderItem;
 	};
 
 	void integrate(double t);
