@@ -22,6 +22,9 @@ public:
 	}
 
 	void update(double t);
+
+	vector<Generador*> getParticulas() { return generador; };
+
 private:
 	vector<Generador*>generador;
 };

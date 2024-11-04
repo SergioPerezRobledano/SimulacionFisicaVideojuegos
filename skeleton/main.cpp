@@ -9,7 +9,7 @@
 #include "callbacks.hpp"
 //#include "Particle.h"
 //#include "Proyectil.h"
-#include "SisParticulas.h"
+#include "GeneradorGravitatorio.h"
 
 
 
@@ -54,6 +54,7 @@ Vector3 vel(1, 0, 0);
 physx::PxShape* s;
 
 SisParticulas sistema;
+GeneradorGravitatorio* gravedad=new GeneradorGravitatorio(&sistema);
 //Particle* p ;
 //vector<Proyectil*>canon;
 
@@ -78,7 +79,7 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	sistema.addGenerator(Vector3(50, 0, 0),NORMAL);
+	//sistema.addGenerator(Vector3(50, 0, 0),NORMAL);
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
 
@@ -112,6 +113,7 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	gravedad->setForce();
 	sistema.update(t);
 	//for (auto e : canon)e->Disparo(t);
 	//p->integrate(t);

@@ -10,7 +10,9 @@ using namespace std;
 class Generador
 {
 public:
-	Generador(Vector3 p,tipo t) :iniPos(p),tiempototal(0.0),distribucion(t) {};
+	Generador(Vector3 p,tipo t) :iniPos(p),tiempototal(0.0),distribucion(t) {
+
+	};
 	~Generador() {
 		for (auto e : particulas) {
 			delete e;
@@ -19,9 +21,12 @@ public:
 	};
 
 	void update(double t);
-	void destroty();
+
 	float generateGausssian(float mean, float stddev);
 	float generateUniform(float min, float max);
+
+	list<Particle*> getParticulas() { return particulas; }
+
 private:
 	tipo distribucion;
 	Vector3 iniPos;

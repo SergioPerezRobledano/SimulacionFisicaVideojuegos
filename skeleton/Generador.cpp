@@ -9,10 +9,10 @@ void Generador::update(double t)
 	Particle* aux;
 
 	if (distribucion == GAUSS) {
-		 aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, -9.8, 0), 0.998);
+		 aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998);
 	}
 	else {
-		aux = new Particle(iniPos, Vector3(generateUniform(-20,20), generateUniform(30, 40), generateUniform(0, 2)), Vector3(0, -9.8, 0), 0.998);
+		aux = new Particle(iniPos, Vector3(generateUniform(-20,20), generateUniform(30, 40), generateUniform(0, 2)), Vector3(0, 0, 0), 0.998);
 	}
 
 	aux->settiempo(tiempototal);

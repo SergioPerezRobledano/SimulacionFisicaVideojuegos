@@ -18,7 +18,7 @@ public:
 
 	void integrate(double t);
 
-	void setACeleration(Vector3 a) {
+	void addForce(Vector3 a) {
 		ac = a;
 	};
 
