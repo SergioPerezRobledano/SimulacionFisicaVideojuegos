@@ -7,7 +7,7 @@ void GeneradorGravitatorio::setForce()
 	for (auto a : generador) {
 		p=a->getParticulas();
 		for (auto e : p) {
-			e->addForce(gravedad);
+			e->addGForce(gravedad);
 		}
 	}
 }

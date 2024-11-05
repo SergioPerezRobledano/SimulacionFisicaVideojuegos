@@ -10,6 +10,7 @@
 //#include "Particle.h"
 //#include "Proyectil.h"
 #include "GeneradorGravitatorio.h"
+#include "GeneradorViento.h"
 
 
 
@@ -55,6 +56,7 @@ physx::PxShape* s;
 
 SisParticulas sistema;
 GeneradorGravitatorio* gravedad=new GeneradorGravitatorio(&sistema);
+GeneradorViento* viento=new GeneradorViento(&sistema,Vector3(-109,0,0));
 //Particle* p ;
 //vector<Proyectil*>canon;
 
@@ -114,6 +116,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 	gravedad->setForce();
+	viento->setForce();
 	sistema.update(t);
 	//for (auto e : canon)e->Disparo(t);
 	//p->integrate(t);

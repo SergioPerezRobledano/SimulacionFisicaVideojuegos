@@ -5,7 +5,9 @@ class Particle
 {
 public:
 	Particle(Vector3 pos, Vector3 Vel, Vector3 a,double d)  {
-		ac = a;
+		gravedad = Vector3(0, 0, 0);
+		viento = Vector3(0, 0, 0);
+		fuerzaTotal = a;
 		dumping = d;
 		vel = Vel;
 		pose = PxTransform(pos);
@@ -18,8 +20,14 @@ public:
 
 	void integrate(double t);
 
-	void addForce(Vector3 a) {
-		ac = a;
+	void addGForce(Vector3 a) {
+		gravedad = a;
+	};
+	void addWForce(Vector3 a) {
+		viento = a;
+	};
+	void sumatorioFuerzas() {
+		fuerzaTotal = gravedad + viento;
 	};
 
 	Vector3 getVel() { return vel; }
@@ -35,7 +43,9 @@ private:
 	double tvida;
 	double dumping;
 	Vector3 vel;
-	Vector3 ac;
+	Vector3 fuerzaTotal;
+	Vector3 gravedad;
+	Vector3 viento;
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 
