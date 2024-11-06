@@ -21,9 +21,21 @@ public:
 		generador.push_back(new Generador(v,t));
 	}
 
+	void Generate(double t);
+	void Integrate(double t);
 	void update(double t);
 
-	vector<Generador*> getParticulas() { return generador; };
+	list<Particle*>getParticulas() {
+		list<Particle*>l;
+		for (auto g : generador) {
+			for (auto p : g->getParticulas()) {
+				l.push_back(p);
+			}
+		}
+		return l;
+	}
+
+	vector<Generador*> getGeneradores() { return generador; };
 
 private:
 	vector<Generador*>generador;

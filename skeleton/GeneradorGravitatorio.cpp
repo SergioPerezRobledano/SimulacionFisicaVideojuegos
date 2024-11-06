@@ -1,13 +1,12 @@
 #include "GeneradorGravitatorio.h"
 
-void GeneradorGravitatorio::setForce()
+Vector3 GeneradorGravitatorio::setForce(Particle* p)
 {
-	vector<Generador*>generador = particulas->getParticulas();
-	std::list<Particle*>p;
-	for (auto a : generador) {
-		p=a->getParticulas();
-		for (auto e : p) {
-			e->addGForce(gravedad);
-		}
+	Vector3 dist = initPos - p->getPos();
+	if (abs(dist.x) <= volumen.x && abs(dist.y) <= volumen.y && abs(dist.z) <= volumen.z) {
+		return gravedad;
+	}
+	else {
+		return Vector3(0, 0, 0);
 	}
 }

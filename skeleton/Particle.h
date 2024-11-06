@@ -1,13 +1,13 @@
 #include "RenderUtils.hpp"
 using namespace physx;
-const double VIDA = 3.0;
+const double VIDA = 10.0;
 class Particle
 {
 public:
-	Particle(Vector3 pos, Vector3 Vel, Vector3 a,double d)  {
-		gravedad = Vector3(0, 0, 0);
-		viento = Vector3(0, 0, 0);
-		fuerzaTotal = a;
+	Particle(Vector3 pos, Vector3 Vel, Vector3 a,double d,float m)  {
+		masa = m;
+		fuerzaTotal = Vector3(0,0,0);
+		ac = Vector3(0,0,0);
 		dumping = d;
 		vel = Vel;
 		pose = PxTransform(pos);
@@ -20,15 +20,13 @@ public:
 
 	void integrate(double t);
 
-	void addGForce(Vector3 a) {
-		gravedad = a;
+	void addForce(Vector3 a) {
+		fuerzaTotal = a;
 	};
-	void addWForce(Vector3 a) {
-		viento = a;
-	};
-	void sumatorioFuerzas() {
-		fuerzaTotal = gravedad + viento;
-	};
+
+	void calculateAceleration() {
+		ac = fuerzaTotal / masa;
+	}
 
 	Vector3 getVel() { return vel; }
 
@@ -42,10 +40,13 @@ public:
 private:
 	double tvida;
 	double dumping;
+
+	float masa;
+
 	Vector3 vel;
+	Vector3 ac;
 	Vector3 fuerzaTotal;
-	Vector3 gravedad;
-	Vector3 viento;
+
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 

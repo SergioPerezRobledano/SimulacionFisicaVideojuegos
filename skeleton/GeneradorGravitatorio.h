@@ -1,20 +1,22 @@
 #pragma once
+#include "ForceGenerator.h"
 
-#include "SisParticulas.h"
-#include <list>
 
 const float G=9.8;
 
 using namespace physx;
 using namespace std;
 
-class GeneradorGravitatorio
+class GeneradorGravitatorio: public ForceGenerator
 {
 public:
-	GeneradorGravitatorio(SisParticulas* p) :gravedad(Vector3(0.0,-G,0.0)),particulas(p) {}
-	void setForce();
+	GeneradorGravitatorio(Vector3 p, Vector3 v) :ForceGenerator(p, v) {
+		gravedad = Vector3(0.0, -G, 0.0);
+
+	}
+	Vector3 setForce(Particle* p);
 private:
 	Vector3 gravedad;
-	SisParticulas* particulas;
+
 };
 

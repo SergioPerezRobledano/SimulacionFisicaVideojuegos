@@ -12,7 +12,7 @@ public:
 		ajusteGravedad();
 		Vector3 dir = pos;
 		dir.normalize();
-		p = new Particle(ini, dir*velS, Vector3(0, -gS, 0), 0.998);
+		p = new Particle(ini, dir*velS, Vector3(0, -gS, 0), 0.998,4);
 	};
 
 	void ajusteMasa() {

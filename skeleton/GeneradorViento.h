@@ -1,22 +1,24 @@
 #pragma once
-#include "SisParticulas.h"
-#include <list>
+#include "ForceGenerator.h"
 
-const float u = 0.25;
+const float u = 0.9;
 
-class GeneradorViento
+class GeneradorViento: public ForceGenerator
 {
 public:
-	GeneradorViento(SisParticulas* p,Vector3 f):particulas(p),viento(f),rozamiento(u) {
+	GeneradorViento(Vector3 p, Vector3 v,Vector3 f):ForceGenerator(p,v),viento(f),k1(u) {
 
 	}
+
 	Vector3 fuerzaViento(Particle* p){
-		return rozamiento * (viento - p->getVel());
+		return k1 * (viento - p->getVel());
 	}
-	void setForce();
+
+	Vector3 setForce(Particle* p);
+
 private:
+
 	Vector3 viento;
-	SisParticulas* particulas;
-	float rozamiento;
+	float k1;
 };
 

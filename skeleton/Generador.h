@@ -1,7 +1,7 @@
 #pragma once
 #include "Particle.h"
 #include <list>
-const int AREA_Y = 25, AREA_X = 40;
+const int AREA_Y = 100, AREA_X = 100;
 enum tipo
 {
 	GAUSS, NORMAL
@@ -19,6 +19,10 @@ public:
 		}
 		particulas.clear();
 	};
+
+	void Generate(double t);
+
+	void Integrate(double t);
 
 	void update(double t);
 

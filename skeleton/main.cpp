@@ -7,11 +7,10 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-//#include "Particle.h"
-//#include "Proyectil.h"
-#include "GeneradorGravitatorio.h"
-#include "GeneradorViento.h"
 
+#include"SisFuerzas.h"
+#include"GeneradorGravitatorio.h"
+#include"GeneradorViento.h"
 
 
 #include <iostream>
@@ -54,9 +53,9 @@ Vector3 vel(1, 0, 0);
 
 physx::PxShape* s;
 
-SisParticulas sistema;
-GeneradorGravitatorio* gravedad=new GeneradorGravitatorio(&sistema);
-GeneradorViento* viento=new GeneradorViento(&sistema,Vector3(-109,0,0));
+SisParticulas* sistema=new SisParticulas();
+SisFuerzas* fuerzas=new SisFuerzas(sistema);
+
 //Particle* p ;
 //vector<Proyectil*>canon;
 
@@ -80,6 +79,9 @@ void initPhysics(bool interactive)
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
 	s = CreateShape(PxSphereGeometry(2));
+
+	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(10, 10, 10)));
+	fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 10, 100), Vector3(40, 0, 0)));
 
 	//sistema.addGenerator(Vector3(50, 0, 0),NORMAL);
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
@@ -115,9 +117,12 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	gravedad->setForce();
-	viento->setForce();
-	sistema.update(t);
+	sistema->Generate(t);
+	fuerzas->update(t);
+	sistema->Integrate(t);
+
+
+
 	//for (auto e : canon)e->Disparo(t);
 	//p->integrate(t);
 }

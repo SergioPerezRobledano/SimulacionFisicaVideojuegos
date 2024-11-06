@@ -18,6 +18,7 @@
     <ClCompile Include="SisFuerzas.cpp" />
     <ClCompile Include="GeneradorGravitatorio.cpp" />
     <ClCompile Include="GeneradorViento.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="SisFuerzas.h" />
     <ClInclude Include="GeneradorGravitatorio.h" />
     <ClInclude Include="GeneradorViento.h" />
+    <ClInclude Include="ForceGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
