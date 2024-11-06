@@ -9,7 +9,7 @@ class SisParticulas
 {
 public:
 	SisParticulas() {
-		generador.push_back(new Generador(Vector3(0, 0, 0),GAUSS));
+		//generador.push_back(new Generador(Vector3(0, 0, 0),GAUSS));
 	}
 	~SisParticulas() {
 		for (auto e : generador) {

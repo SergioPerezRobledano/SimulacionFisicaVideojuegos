@@ -257,6 +257,7 @@
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="Generador.cpp" />
     <ClCompile Include="GeneradorGravitatorio.cpp" />
+    <ClCompile Include="GeneradorTorbellino.cpp" />
     <ClCompile Include="GeneradorViento.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="Generador.h" />
     <ClInclude Include="GeneradorGravitatorio.h" />
+    <ClInclude Include="GeneradorTorbellino.h" />
     <ClInclude Include="GeneradorViento.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Proyectil.h" />

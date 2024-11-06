@@ -9,7 +9,7 @@ void Generador::Generate(double t)
 		aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
 	}
 	else {
-		aux = new Particle(iniPos, Vector3(generateUniform(-20, 20), generateUniform(30, 40), generateUniform(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
+		aux = new Particle(Vector3(generateUniform(-15, 15), 0, generateUniform(-15, 15)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
 	}
 
 	aux->settiempo(tiempototal);

@@ -11,6 +11,8 @@
 #include"SisFuerzas.h"
 #include"GeneradorGravitatorio.h"
 #include"GeneradorViento.h"
+#include "GeneradorTorbellino.h"
+
 
 
 #include <iostream>
@@ -80,10 +82,13 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(10, 10, 10)));
-	fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 10, 100), Vector3(40, 0, 0)));
+	//fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(10, 10, 10)));
+	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 10, 100), Vector3(40, 0, 0)));
+	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
 
-	//sistema.addGenerator(Vector3(50, 0, 0),NORMAL);
+
+	fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(100, 100, 100)));
+
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
 

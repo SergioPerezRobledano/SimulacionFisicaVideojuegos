@@ -1,7 +1,7 @@
 #pragma once
 #include "Particle.h"
 #include <list>
-const int AREA_Y = 100, AREA_X = 100;
+const int AREA_Y = 10000, AREA_X = 10000;
 enum tipo
 {
 	GAUSS, NORMAL
