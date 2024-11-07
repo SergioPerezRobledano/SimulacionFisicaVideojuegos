@@ -10,14 +10,18 @@ class GeneradorTorbellino : public ForceGenerator
 {
 public:
 	GeneradorTorbellino(Vector3 p, Vector3 v) :ForceGenerator(p, v) {
-		k = 0.1;
+		k = 3;
 	}
 
 	Vector3 setForce(Particle* p);
 
 	Vector3 fuerzaTorbellino(Particle* p) {
-		Vector3 aux = Vector3(p->getPos().x, 0, -(pow(p->getPos().x, 2)) / p->getPos().z);
-		return aux;
+		Vector3 aux = {
+		-(p->getPos().z - initPos.z),
+		0,						// Preguntar que narices poner aqui
+		p->getPos().z - initPos.x
+		};
+		return (k*aux)-p->getVel();
 	}
 
 private:
