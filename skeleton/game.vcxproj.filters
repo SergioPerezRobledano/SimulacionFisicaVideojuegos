@@ -20,6 +20,7 @@
     <ClCompile Include="GeneradorViento.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GeneradorTorbellino.cpp" />
+    <ClCompile Include="GeneradorExplosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="GeneradorViento.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GeneradorTorbellino.h" />
+    <ClInclude Include="GeneradorExplosion.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

@@ -14,7 +14,7 @@ public:
 		gravedad = Vector3(0.0, -G, 0.0);
 
 	}
-	Vector3 setForce(Particle* p);
+	Vector3 setForce(Particle* p, double t);
 private:
 	Vector3 gravedad;
 

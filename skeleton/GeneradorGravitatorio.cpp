@@ -1,6 +1,6 @@
 #include "GeneradorGravitatorio.h"
 
-Vector3 GeneradorGravitatorio::setForce(Particle* p)
+Vector3 GeneradorGravitatorio::setForce(Particle* p, double t)
 {
 	Vector3 dist = initPos - p->getPos();
 	if (abs(dist.x) <= volumen.x && abs(dist.y) <= volumen.y && abs(dist.z) <= volumen.z) {

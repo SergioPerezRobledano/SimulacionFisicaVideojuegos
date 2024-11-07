@@ -14,7 +14,7 @@ public:
 		return k1 * (viento - p->getVel());
 	}
 
-	Vector3 setForce(Particle* p);
+	Vector3 setForce(Particle* p, double t);
 
 private:
 

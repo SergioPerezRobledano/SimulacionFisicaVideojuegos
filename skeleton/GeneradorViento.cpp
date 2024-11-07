@@ -1,6 +1,6 @@
 #include "GeneradorViento.h"
 
-Vector3 GeneradorViento::setForce(Particle* p)
+Vector3 GeneradorViento::setForce(Particle* p, double t)
 {
 	Vector3 dist = initPos - p->getPos();
 	if (abs(dist.x) <= volumen.x && abs(dist.y) <= volumen.y && abs(dist.z) <= volumen.z) {

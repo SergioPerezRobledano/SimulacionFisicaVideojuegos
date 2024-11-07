@@ -12,6 +12,7 @@
 #include"GeneradorGravitatorio.h"
 #include"GeneradorViento.h"
 #include "GeneradorTorbellino.h"
+#include "GeneradorExplosion.h"
 
 
 
@@ -85,13 +86,9 @@ void initPhysics(bool interactive)
 	//fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(10, 10, 10)));
 	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 10, 100), Vector3(40, 0, 0)));
 	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
-	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
-	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
-	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
-	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
 
-
-	fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(100, 100, 100)));
+	//fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(200, 100, 200)));
+	fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
 
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
