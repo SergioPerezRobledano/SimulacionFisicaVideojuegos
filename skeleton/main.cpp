@@ -13,6 +13,8 @@
 #include"GeneradorViento.h"
 #include "GeneradorTorbellino.h"
 #include "GeneradorExplosion.h"
+#include "GeneradorMuelleAnclado.h"
+#include "GeneradorMuelle.h"
 
 
 
@@ -83,12 +85,17 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	//fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(10, 10, 10)));
+	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 10, 100), Vector3(40, 0, 0)));
 	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
+	sistema->muelleDemo();
+	//sistema->muelleParticulasDemo();
 
 	//fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(200, 100, 200)));
-	fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
+	//fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
+
+	fuerzas->addGenerator(new GeneradorMuelleAnclado(1, 15));
+	//fuerzas->addGeneratorM(new GeneradorMuelle(1, 15));
 
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
@@ -123,8 +130,9 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	sistema->Generate(t);
+	//sistema->Generate(t);
 	fuerzas->update(t);
+	//fuerzas->updateMuelles(t);
 	sistema->Integrate(t);
 
 

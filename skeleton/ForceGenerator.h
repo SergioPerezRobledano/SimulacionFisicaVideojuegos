@@ -8,6 +8,7 @@ class ForceGenerator
 {
 public:
 	ForceGenerator(Vector3 p,Vector3 v):initPos(p),volumen(v){}
+	ForceGenerator() { initPos = Vector3(0);volumen = Vector3(0); };
 
 	virtual Vector3 setForce(Particle* p, double t) = 0;
 

@@ -12,6 +12,9 @@ void SisParticulas::Integrate(double t)
 	for (auto e : generador) {
 		e->Integrate(t);
 	}
+	for (auto ma : particulasMA) {
+		ma->integrate(t);
+	}
 }
 
 void SisParticulas::update(double t)

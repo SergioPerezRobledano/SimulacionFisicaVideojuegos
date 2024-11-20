@@ -14,6 +14,15 @@ public:
 		physx::PxVec4 col(1, 1, 1, 1);
 		renderItem = new RenderItem(CreateShape(PxSphereGeometry(1)), &pose, col);
 	};
+	Particle(Vector3 pos, Vector3 Vel, Vector3 a, double d, float m,PxShape* cube, PxVec4 col) {
+		masa = m;
+		fuerzaTotal = Vector3(0, 0, 0);
+		ac = Vector3(0, 0, 0);
+		dumping = d;
+		vel = Vel;
+		pose = PxTransform(pos);
+		renderItem = new RenderItem(cube, &pose, col);
+	};
 	~Particle() {
 		renderItem = nullptr;
 	};

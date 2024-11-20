@@ -21,6 +21,8 @@
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GeneradorTorbellino.cpp" />
     <ClCompile Include="GeneradorExplosion.cpp" />
+    <ClCompile Include="GeneradorMuelleAnclado.cpp" />
+    <ClCompile Include="GeneradorMuelle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -43,6 +45,8 @@
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GeneradorTorbellino.h" />
     <ClInclude Include="GeneradorExplosion.h" />
+    <ClInclude Include="GeneradorMuelleAnclado.h" />
+    <ClInclude Include="GeneradorMuelle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

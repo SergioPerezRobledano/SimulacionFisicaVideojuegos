@@ -17,6 +17,14 @@ public:
 		}
 	};
 
+	void muelleDemo() {
+		particulasMA.push_back( new Particle({ 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0));
+	}
+	void muelleParticulasDemo() {
+		particulasM.first=new Particle({ 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
+		particulasM.second=new Particle({ 0.0,0.0,0.0, }, { 0.0,50.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
+	}
+
 	void addGenerator(Vector3 v,tipo t) {
 		generador.push_back(new Generador(v,t));
 	}
@@ -32,12 +40,21 @@ public:
 				l.push_back(p);
 			}
 		}
+		for (auto ma : particulasMA) {
+			l.push_back(ma);
+		}
 		return l;
+	}
+	pair<Particle*, Particle*>getParticulasM() {
+		return particulasM;
 	}
 
 	vector<Generador*> getGeneradores() { return generador; };
 
 private:
+	Particle* muelle=nullptr;
 	vector<Generador*>generador;
+	pair<Particle*, Particle*>particulasM;
+	list<Particle*>particulasMA;
 };
 

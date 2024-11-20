@@ -15,11 +15,16 @@ public:
 	void addGenerator(ForceGenerator* g) {
 		generadores.push_back(g);
 	}
+	void addGeneratorM(ForceGenerator* g) {
+		generadoresM=g;
+	}
 
 	void update(double t);
+	void updateMuelles(double t);
 
 private:
 	vector<ForceGenerator*>generadores;
+	ForceGenerator* generadoresM;
 	SisParticulas* sisparticulas;
 };
 
