@@ -23,6 +23,7 @@
     <ClCompile Include="GeneradorExplosion.cpp" />
     <ClCompile Include="GeneradorMuelleAnclado.cpp" />
     <ClCompile Include="GeneradorMuelle.cpp" />
+    <ClCompile Include="GeneradorFlotacion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="GeneradorExplosion.h" />
     <ClInclude Include="GeneradorMuelleAnclado.h" />
     <ClInclude Include="GeneradorMuelle.h" />
+    <ClInclude Include="GeneradorFlotacion.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

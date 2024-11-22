@@ -2,6 +2,7 @@
 #include <vector>
 #include "RenderUtils.hpp"
 #include"ForceGenerator.h"
+#include"GeneradorMuelle.h"
 
 using namespace std;
 
@@ -15,7 +16,7 @@ public:
 	void addGenerator(ForceGenerator* g) {
 		generadores.push_back(g);
 	}
-	void addGeneratorM(ForceGenerator* g) {
+	void addGeneratorM(GeneradorMuelle* g) {
 		generadoresM=g;
 	}
 
@@ -24,7 +25,7 @@ public:
 
 private:
 	vector<ForceGenerator*>generadores;
-	ForceGenerator* generadoresM;
+	GeneradorMuelle* generadoresM;
 	SisParticulas* sisparticulas;
 };
 

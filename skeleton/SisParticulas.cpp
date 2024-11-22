@@ -15,6 +15,11 @@ void SisParticulas::Integrate(double t)
 	for (auto ma : particulasMA) {
 		ma->integrate(t);
 	}
+	if (particulasM.first != nullptr && particulasM.second != nullptr) {
+		particulasM.first->integrate(t);
+		particulasM.second->integrate(t);
+	}
+
 }
 
 void SisParticulas::update(double t)

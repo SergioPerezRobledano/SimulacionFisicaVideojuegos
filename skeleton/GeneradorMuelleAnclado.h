@@ -6,7 +6,7 @@ public:
 	GeneradorMuelleAnclado(double K, double Rlenght) :ForceGenerator(),k(K), rlenght(Rlenght){
 		other = new Particle({ 0.0,50.0,0.0 }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.85, 60,CreateShape(PxBoxGeometry(1,1,1)),{1,1,0,0});
 	};
-	virtual Vector3 fuerzaMuelle(Particle* p) {
+	Vector3 fuerzaMuelle(Particle* p) {
 		Vector3 relativePos = other->getPos() - p->getPos();
 
 		const float l = relativePos.normalize();

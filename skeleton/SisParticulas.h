@@ -21,8 +21,8 @@ public:
 		particulasMA.push_back( new Particle({ 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0));
 	}
 	void muelleParticulasDemo() {
-		particulasM.first=new Particle({ 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
-		particulasM.second=new Particle({ 0.0,0.0,0.0, }, { 0.0,50.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
+		particulasM.first=new Particle({ 20.0,0.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
+		particulasM.second=new Particle({ 20.0,10.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
 	}
 
 	void addGenerator(Vector3 v,tipo t) {
