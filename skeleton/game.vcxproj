@@ -261,6 +261,7 @@
     <ClCompile Include="GeneradorGravitatorio.cpp" />
     <ClCompile Include="GeneradorMuelle.cpp" />
     <ClCompile Include="GeneradorMuelleAnclado.cpp" />
+    <ClCompile Include="GeneradorSolidoRigido.cpp" />
     <ClCompile Include="GeneradorTorbellino.cpp" />
     <ClCompile Include="GeneradorViento.cpp" />
     <ClCompile Include="main.cpp" />
@@ -271,6 +272,7 @@
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="SisFuerzas.cpp" />
     <ClCompile Include="SisParticulas.cpp" />
+    <ClCompile Include="SolidoRigido.cpp" />
     <ClCompile Include="Vector3DSIM.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +285,7 @@
     <ClInclude Include="GeneradorGravitatorio.h" />
     <ClInclude Include="GeneradorMuelle.h" />
     <ClInclude Include="GeneradorMuelleAnclado.h" />
+    <ClInclude Include="GeneradorSolidoRigido.h" />
     <ClInclude Include="GeneradorTorbellino.h" />
     <ClInclude Include="GeneradorViento.h" />
     <ClInclude Include="Particle.h" />
@@ -292,6 +295,7 @@
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="SisFuerzas.h" />
     <ClInclude Include="SisParticulas.h" />
+    <ClInclude Include="SolidoRigido.h" />
     <ClInclude Include="Vector3DSIM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

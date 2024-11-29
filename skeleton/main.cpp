@@ -16,6 +16,7 @@
 #include "GeneradorMuelleAnclado.h"
 #include "GeneradorMuelle.h"
 #include "GeneradorFlotacion.h"
+#include "GeneradorSolidoRigido.h"
 
 
 
@@ -61,6 +62,7 @@ physx::PxShape* s;
 
 SisParticulas* sistema=new SisParticulas();
 SisFuerzas* fuerzas=new SisFuerzas(sistema);
+GeneradorSolidoRigido* solidGenerator;
 
 //Particle* p ;
 //vector<Proyectil*>canon;
@@ -86,18 +88,23 @@ void initPhysics(bool interactive)
 
 	s = CreateShape(PxSphereGeometry(2));
 
-	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
-	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 20, 100), Vector3(40, 0, 0)));
 	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
-	//sistema->muelleDemo();
-	//sistema->muelleParticulasDemo();
 
+	//Fuerzas
+
+	//fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 20, 100), Vector3(40, 0, 0)));
 	//fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(200, 100, 200)));
 	//fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
-
-	//fuerzas->addGenerator(new GeneradorMuelleAnclado(1, 30));
+	
+	//Muelles
+	
+	//sistema->muelleDemo();
+	//sistema->muelleParticulasDemo();
+	
+	//fuerzas->addGenerator(new GeneradorMuelleAnclado(1, 20));
 	//fuerzas->addGeneratorM(new GeneradorMuelle(1, 5,sistema));
-	fuerzas->addGenerator(new GeneradorFlotacion(8, 10,2));
+	//fuerzas->addGenerator(new GeneradorFlotacion(8, 10,2));
 
 	 //p = new Particle(pos,vel,Vector3(0,1,0), 0.998);
 
@@ -121,6 +128,14 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	//Parte 2
+	solidGenerator = new GeneradorSolidoRigido(Vector3(0), 100, gScene);
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
+	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 100));
+	suelo->attachShape(*shape);
+	gScene->addActor(*suelo);
+	RenderItem* item;
+	item = new RenderItem(shape, suelo, { 1,1,1,1 });
 	}
 
 
@@ -132,11 +147,11 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	sistema->Generate(t);
-	fuerzas->update(t);
-	fuerzas->updateMuelles(t);
-	sistema->Integrate(t);
-
+	//sistema->Generate(t);
+	//fuerzas->update(t);
+	//fuerzas->updateMuelles(t);
+	//sistema->Integrate(t);
+	solidGenerator->Generate();
 
 
 	//for (auto e : canon)e->Disparo(t);

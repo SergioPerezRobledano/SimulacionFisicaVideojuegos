@@ -24,6 +24,8 @@
     <ClCompile Include="GeneradorMuelleAnclado.cpp" />
     <ClCompile Include="GeneradorMuelle.cpp" />
     <ClCompile Include="GeneradorFlotacion.cpp" />
+    <ClCompile Include="SolidoRigido.cpp" />
+    <ClCompile Include="GeneradorSolidoRigido.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -49,6 +51,8 @@
     <ClInclude Include="GeneradorMuelleAnclado.h" />
     <ClInclude Include="GeneradorMuelle.h" />
     <ClInclude Include="GeneradorFlotacion.h" />
+    <ClInclude Include="SolidoRigido.h" />
+    <ClInclude Include="GeneradorSolidoRigido.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
