@@ -20,7 +20,11 @@ public:
 		std::uniform_real_distribution<float>distrib(min, max);
 		return distrib(gen);
 	}
-
+	void setForce(Vector3 f) {
+		for (auto& s : listaSolidos) {
+			s->setForce(Vector3(0));
+		}
+	}
 private:
 	Vector3 ipos;
 	int maxSolid;

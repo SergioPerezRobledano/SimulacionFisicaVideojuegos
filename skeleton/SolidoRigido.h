@@ -25,6 +25,9 @@ public:
 		renderItem = new RenderItem(shape, solidoR, { 1,0,0,1 });
 
 	};
+	void setForce(Vector3 f) {
+		solidoR->setLinearVelocity(Vector3(0, 10, 0));
+	}
 private:
 	PxShape* shape;
 	RenderItem* renderItem;

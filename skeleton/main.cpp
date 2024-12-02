@@ -129,7 +129,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//Parte 2
-	solidGenerator = new GeneradorSolidoRigido(Vector3(0), 100, gScene);
+	solidGenerator = new GeneradorSolidoRigido(Vector3(0), 1, gScene);
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 100));
 	suelo->attachShape(*shape);
@@ -184,9 +184,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
+		solidGenerator->setForce(Vector3(0));
+
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
-	//case ' ':	break;
+	//case ' ': {
+	//}
 	case ' ':
 	{
 		break;
