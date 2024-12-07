@@ -17,6 +17,20 @@ void SisFuerzas::update(double t)
 	}
 }
 
+void SisFuerzas::updatesolidos(double t)
+{
+	Vector3 v;
+	list<SolidoRigido*> aux = sissolidos->getSolidos();
+	for (auto p : aux) {
+		v = Vector3(0, 0, 0);
+		for (auto g : generadores) {
+			v += g->setForce(p, t);
+		}
+		std::cout << v.x << " " << v.y << " " << v.z << endl;
+		p->setForce(v);
+	}
+}
+
 void SisFuerzas::updateMuelles(double t)
 {
 	Vector3 v1,v2;

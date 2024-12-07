@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderUtils.hpp"
-#include"SolidoRigido.h"
+#include"RedBall.h"
 #include <random>
 #include<list>
 class GeneradorSolidoRigido
@@ -10,7 +10,8 @@ public:
 
 	void Generate() {
 		if (listaSolidos.size() < maxSolid) {
-			auto aux = new SolidoRigido(PxTransform(Vector3(0, Random(0, 100), 0)), gScene, Vector3(0, -10, 0),Random(0.0,100));
+			//auto aux = new SolidoRigido(PxTransform(Vector3(0, Random(0, 100), 0)), gScene, Vector3(0, -10, 0),Random(0.0,100));
+			auto aux = new SolidoRigido(PxTransform(Vector3(0,-8, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0),1);
 			listaSolidos.push_back(aux);
 		}
 	}
@@ -21,10 +22,13 @@ public:
 		return distrib(gen);
 	}
 	void setForce(Vector3 f) {
-		for (auto& s : listaSolidos) {
+		for (auto s : listaSolidos) {
 			s->setForce(Vector3(0));
 		}
 	}
+
+	std::list <SolidoRigido*> getS();
+
 private:
 	Vector3 ipos;
 	int maxSolid;

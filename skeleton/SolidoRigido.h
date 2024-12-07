@@ -15,7 +15,7 @@ public:
 		renderItem = new RenderItem(shape, solidoR, {1,0,0,1});
 	};
 	SolidoRigido(PxTransform pos,PxScene* sc, Vector3 v,float inercia) :Initpos(pos), gScene(sc), vel(v) {
-		shape = CreateShape(PxBoxGeometry(1, 1, 1));
+		shape = CreateShape(PxSphereGeometry(2));
 		solidoR = gScene->getPhysics().createRigidDynamic(Initpos);
 		solidoR->setLinearVelocity(v);
 		solidoR->setAngularVelocity(Vector3(0));
@@ -26,7 +26,17 @@ public:
 
 	};
 	void setForce(Vector3 f) {
-		solidoR->setLinearVelocity(Vector3(0, 10, 0));
+		solidoR->addForce(f);
+	}
+	Vector3 getPos() {
+		return solidoR->getGlobalPose().p;
+	}
+	Vector3 getVel() {
+		return solidoR->getLinearVelocity();
+	}
+protected:
+	virtual PxRigidDynamic* getSolido() {
+		return solidoR;
 	}
 private:
 	PxShape* shape;
