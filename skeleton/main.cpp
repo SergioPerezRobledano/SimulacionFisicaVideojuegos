@@ -58,14 +58,14 @@ physx::PxVec4 colz(0,0,1,1);
 
 Vector3 vel(1, 0, 0);
 
-physx::PxShape* s;
+//physx::PxShape* s=CreateShape(PxBoxGeometry(1,1,1));
 
-RedBall* ball = new RedBall(PxTransform(Vector3(0, -8, 0)), gScene, Vector3(0, 0, 0), 1);
+//RedBall* ball = new RedBall(PxTransform(Vector3(0, -8, 0)), gScene, Vector3(0, 0, 0), 1);
 
 SisParticulas* sistema=new SisParticulas();
 SisFuerzas* fuerzas=new SisFuerzas(sistema);
 GeneradorSolidoRigido* solidGenerator;
-
+SolidoRigido* ball;
 //Particle* p ;
 //vector<Proyectil*>canon;
 
@@ -88,13 +88,12 @@ void initPhysics(bool interactive)
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
-	s = CreateShape(PxSphereGeometry(2));
+	//s = CreateShape(PxSphereGeometry(2));
 
-	sistema->addGenerator(Vector3(0, 0, 0), NORMAL);
 
 	//Fuerzas
 
-	//fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 20, 100), Vector3(40, 0, 0)));
 	//fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(200, 100, 200)));
 	//fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
@@ -124,20 +123,35 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	//sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//Parte 2
-	solidGenerator = new GeneradorSolidoRigido(Vector3(0,-10,0), 1, gScene);
+	solidGenerator = new GeneradorSolidoRigido(Vector3(0, -10, 0), 1, gScene);
+	solidGenerator->Generate();
+	ball = solidGenerator->getS().front();
+	sistema->addGenerator(Vector3(0, 0, 0), GAUSS, ball);
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0,-10,0)));
+	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50,-10,0)));
+	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50,-10,0)));
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 10));
+	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
+	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10));
 	suelo->attachShape(*shape);
+	suelo1->attachShape(*shape1);
+	suelo2->attachShape(*shape2);
 	gScene->addActor(*suelo);
+	gScene->addActor(*suelo1);
+	gScene->addActor(*suelo2);
 	RenderItem* item;
 	item = new RenderItem(shape, suelo, { 0,0.5,1,1 });
+	RenderItem* item1;
+	item = new RenderItem(shape1, suelo1, { 0,0.5,0.5,1 });
+	RenderItem* item2;
+	item = new RenderItem(shape2, suelo2, { 0,0.5,0.5,1 });
 	}
 
 
@@ -149,11 +163,11 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	//sistema->Generate(t);
-	//fuerzas->update(t);
+	sistema->Generate(t);
+	fuerzas->update(t);
 	//fuerzas->updateMuelles(t);
-	//sistema->Integrate(t);
-	//solidGenerator->Generate();
+	sistema->Integrate(t);
+	
 
 
 	//for (auto e : canon)e->Disparo(t);
@@ -182,18 +196,27 @@ void cleanupPhysics(bool interactive)
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-
 	switch(toupper(key))
 	{
 	case 'P': {
-		ball->shot();
+		ball->Shoot();
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
-	//case ' ': {
-	//}
 	case 'U':
 	{
-		break;
+		ball->changeT(toupper(key));
+	}
+	case 'N':
+	{
+		ball->changeT(toupper(key));
+	}
+	case 'H':
+	{
+		ball->changeT(toupper(key));
+	}
+	case 'J':
+	{
+		ball->changeT(toupper(key));
 	}
 	default:
 		break;

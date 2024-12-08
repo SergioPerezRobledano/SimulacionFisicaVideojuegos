@@ -1,6 +1,6 @@
 #include "RenderUtils.hpp"
 using namespace physx;
-const double VIDA = 100.0;
+const double VIDA = 10.0;
 class Particle
 {
 public:
@@ -12,7 +12,7 @@ public:
 		vel = Vel;
 		pose = PxTransform(pos);
 		physx::PxVec4 col(1, 1, 1, 1);
-		renderItem = new RenderItem(CreateShape(PxSphereGeometry(1)), &pose, col);
+		renderItem = new RenderItem(CreateShape(PxSphereGeometry(0.25)), &pose, col);
 	};
 	Particle(Vector3 pos, Vector3 Vel, Vector3 a, double d, float m,PxShape* cube, PxVec4 col) {
 		masa = m;
@@ -24,6 +24,7 @@ public:
 		renderItem = new RenderItem(cube, &pose, col);
 	};
 	~Particle() {
+		renderItem->release();
 		renderItem = nullptr;
 	};
 

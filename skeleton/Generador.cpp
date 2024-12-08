@@ -1,19 +1,25 @@
 #include "Generador.h"
 #include <random>
+#include <iostream>
 
 void Generador::Generate(double t)
 {
+	std::cout << t;
 	tiempototal += t;
-	Particle* aux;
-	if (distribucion == GAUSS) {
-		aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
-	}
-	else {
-		aux = new Particle(Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
-	}
+		Particle* aux;
+		if (distribucion == GAUSS) {
+			//aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
+			aux = new Particle(ball->getPos(), ball->getVel(), Vector3(0), 0.998, 1.0);
+			tiempogeneracion += tiempototal;
+		}
+		else {
+			aux = new Particle(Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
+			tiempogeneracion += tiempototal;
+		}
 
-	aux->settiempo(tiempototal);
-	particulas.push_back(aux);
+		aux->settiempo(tiempototal);
+		particulas.push_back(aux);
+
 }
 
 void Generador::Integrate(double t)

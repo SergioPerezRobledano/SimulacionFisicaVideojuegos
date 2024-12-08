@@ -3,6 +3,7 @@
 #include "RenderUtils.hpp"
 #include "Generador.h"
 
+
 using namespace std;
 
 class SisParticulas
@@ -25,8 +26,8 @@ public:
 		particulasM.second=new Particle({ 20.0,10.0,0.0, }, { 0.0,0.0,0.0, }, { 0.0,0.0,0.0, }, 0.998, 1.0);
 	}
 
-	void addGenerator(Vector3 v,tipo t) {
-		generador.push_back(new Generador(v,t));
+	void addGenerator(Vector3 v,tipo t,SolidoRigido* b) {
+		generador.push_back(new Generador(v,t,b));
 	}
 
 	void Generate(double t);
