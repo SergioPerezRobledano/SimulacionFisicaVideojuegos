@@ -15,7 +15,6 @@ public:
 
 	}
 	Vector3 setForce(Particle* p, double t);
-	Vector3 setForce(SolidoRigido* p, double t);
 private:
 	Vector3 gravedad;
 

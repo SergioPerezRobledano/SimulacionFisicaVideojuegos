@@ -26,8 +26,6 @@
     <ClCompile Include="GeneradorFlotacion.cpp" />
     <ClCompile Include="SolidoRigido.cpp" />
     <ClCompile Include="GeneradorSolidoRigido.cpp" />
-    <ClCompile Include="SisSolidos.cpp" />
-    <ClCompile Include="RedBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -55,8 +53,6 @@
     <ClInclude Include="GeneradorFlotacion.h" />
     <ClInclude Include="SolidoRigido.h" />
     <ClInclude Include="GeneradorSolidoRigido.h" />
-    <ClInclude Include="SisSolidos.h" />
-    <ClInclude Include="RedBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
