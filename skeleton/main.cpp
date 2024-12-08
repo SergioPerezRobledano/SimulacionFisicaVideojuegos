@@ -60,6 +60,8 @@ Vector3 vel(1, 0, 0);
 
 physx::PxShape* s;
 
+RedBall* ball = new RedBall(PxTransform(Vector3(0, -8, 0)), gScene, Vector3(0, 0, 0), 1);
+
 SisParticulas* sistema=new SisParticulas();
 SisFuerzas* fuerzas=new SisFuerzas(sistema);
 GeneradorSolidoRigido* solidGenerator;
@@ -122,20 +124,20 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	//sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//Parte 2
-	solidGenerator = new GeneradorSolidoRigido(Vector3(0), 1, gScene);
-	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
-	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 100));
+	solidGenerator = new GeneradorSolidoRigido(Vector3(0,-10,0), 1, gScene);
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0,-10,0)));
+	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 10));
 	suelo->attachShape(*shape);
 	gScene->addActor(*suelo);
 	RenderItem* item;
-	item = new RenderItem(shape, suelo, { 1,1,1,1 });
+	item = new RenderItem(shape, suelo, { 0,0.5,1,1 });
 	}
 
 
@@ -151,7 +153,7 @@ void stepPhysics(bool interactive, double t)
 	//fuerzas->update(t);
 	//fuerzas->updateMuelles(t);
 	//sistema->Integrate(t);
-	solidGenerator->Generate();
+	//solidGenerator->Generate();
 
 
 	//for (auto e : canon)e->Disparo(t);
@@ -184,13 +186,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
-		solidGenerator->setForce(Vector3(0));
-
+		ball->shot();
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
 	//case ' ': {
 	//}
-	case ' ':
+	case 'U':
 	{
 		break;
 	}

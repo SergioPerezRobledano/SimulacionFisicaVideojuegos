@@ -21,11 +21,13 @@ public:
 	}
 
 	void update(double t);
+	void updatesolidos(double t);
 	void updateMuelles(double t);
 
 private:
 	vector<ForceGenerator*>generadores;
 	GeneradorMuelle* generadoresM;
 	SisParticulas* sisparticulas;
+	SisSolidos* sissolidos;
 };
 
