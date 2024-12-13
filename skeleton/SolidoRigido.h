@@ -5,6 +5,7 @@ using namespace physx;
 class SolidoRigido
 {
 public:
+
 	SolidoRigido(PxTransform pos, PxShape* s, PxScene* sc,Vector3 v,float inercia):Initpos(pos),shape(s), gScene(sc),vel(v){
 		solidoR = gScene->getPhysics().createRigidDynamic(Initpos);
 		solidoR->setLinearVelocity(v);
@@ -16,6 +17,19 @@ public:
 		trayectoria = Vector3(-5, 0, 0);
 		sforce = 10.0f;
 	};
+
+	SolidoRigido(PxTransform pos, PxShape* s, PxScene* sc, Vector3 v, float inercia, PxVec4 col) :Initpos(pos), shape(s), gScene(sc), vel(v) {
+		solidoR = gScene->getPhysics().createRigidDynamic(Initpos);
+		solidoR->setLinearVelocity(v);
+		solidoR->setAngularVelocity(Vector3(0));
+		solidoR->attachShape(*shape);
+		gScene->addActor(*solidoR);
+		PxRigidBodyExt::updateMassAndInertia(*solidoR, inercia);
+		renderItem = new RenderItem(shape, solidoR, col);
+		trayectoria = Vector3(-5, 0, 0);
+		sforce = 10.0f;
+	};
+
 	SolidoRigido(PxTransform pos,PxScene* sc, Vector3 v,float inercia) :Initpos(pos), gScene(sc), vel(v) {
 		shape = CreateShape(PxSphereGeometry(2));
 		solidoR = gScene->getPhysics().createRigidDynamic(Initpos);
@@ -29,22 +43,31 @@ public:
 		sforce = 10.0f;
 
 	};
+
+	void setPos(Vector3 v) {
+		solidoR->setGlobalPose(PxTransform(v));
+	}
+
 	void setForce(Vector3 f) {
 		solidoR->addForce(f);
 	}
+
 	Vector3 getPos() {
 		return solidoR->getGlobalPose().p;
 	}
+
 	Vector3 getVel() {
 		Vector3 aux = (solidoR->getGlobalPose().p - (solidoR->getGlobalPose().p + trayectoria));
 		aux.normalize();
 		return aux*sforce;
 	}
+
 	void Shoot() {
 		Vector3 aux = (solidoR->getGlobalPose().p - (solidoR->getGlobalPose().p + trayectoria));
 		aux.normalize();
 		solidoR->setLinearVelocity(aux*sforce);
 	}
+
 	void changeT(char k) {
 		switch (k)
 		{
@@ -72,11 +95,14 @@ public:
 			break;
 		}
 	}
+
 protected:
 	virtual PxRigidDynamic* getSolido() {
 		return solidoR;
 	}
+
 private:
+
 	PxShape* shape;
 	RenderItem* renderItem;
 
@@ -88,5 +114,6 @@ private:
 	PxTransform Initpos;
 
 	float sforce;
+
 };
 

@@ -17,6 +17,7 @@
 #include "GeneradorMuelle.h"
 #include "GeneradorFlotacion.h"
 #include "GeneradorSolidoRigido.h"
+#include "GameManager.h"
 
 
 
@@ -60,12 +61,14 @@ Vector3 vel(1, 0, 0);
 
 //physx::PxShape* s=CreateShape(PxBoxGeometry(1,1,1));
 
-//RedBall* ball = new RedBall(PxTransform(Vector3(0, -8, 0)), gScene, Vector3(0, 0, 0), 1);
+RedBall* Rball;
 
 SisParticulas* sistema=new SisParticulas();
 SisFuerzas* fuerzas=new SisFuerzas(sistema);
 GeneradorSolidoRigido* solidGenerator;
 SolidoRigido* ball;
+Cesto* canasta;
+GameManager* gm;
 //Particle* p ;
 //vector<Proyectil*>canon;
 
@@ -129,15 +132,28 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	//Parte 2
+	//Proyecto
+
+	//Canasta
+	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
+	
+	//Bola del jugador
 	solidGenerator = new GeneradorSolidoRigido(Vector3(0, -10, 0), 1, gScene);
 	solidGenerator->Generate();
 	ball = solidGenerator->getS().front();
+
+	gm = new GameManager(ball, canasta, gScene, gPhysics);
+	gm->setUpLevel(0);
+
+	//Sistema de particulas que dibuja la trayectoria de la bola
 	sistema->addGenerator(Vector3(0, 0, 0), GAUSS, ball);
+
+	//Escenario principal
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0,-10,0)));
 	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50,-10,0)));
 	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50,-10,0)));
-	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 10));
+	auto materialsinrebote = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
+	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 10),materialsinrebote);
 	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
 	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10));
 	suelo->attachShape(*shape);
@@ -167,6 +183,7 @@ void stepPhysics(bool interactive, double t)
 	fuerzas->update(t);
 	//fuerzas->updateMuelles(t);
 	sistema->Integrate(t);
+	gm->Update(t);
 	
 
 

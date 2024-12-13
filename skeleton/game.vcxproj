@@ -254,7 +254,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="Cesto.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Generador.cpp" />
     <ClCompile Include="GeneradorExplosion.cpp" />
     <ClCompile Include="GeneradorFlotacion.cpp" />
@@ -279,8 +281,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
+    <ClInclude Include="Cesto.h" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="ForceGenerator.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Generador.h" />
     <ClInclude Include="GeneradorExplosion.h" />
     <ClInclude Include="GeneradorFlotacion.h" />
