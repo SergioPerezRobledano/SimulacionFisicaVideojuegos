@@ -30,6 +30,10 @@ public:
 		generador.push_back(new Generador(v,t,b));
 	}
 
+	void addGenerator(Generador*g) {
+		generador.push_back(g);
+	}
+
 	void Generate(double t);
 	void Integrate(double t);
 	void update(double t);

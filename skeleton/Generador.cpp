@@ -6,20 +6,33 @@ void Generador::Generate(double t)
 {
 	std::cout << t;
 	tiempototal += t;
+	if (generar) {
+		tiempogeneracion += t;
 		Particle* aux;
-		if (distribucion == GAUSS) {
-			//aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
-			aux = new Particle(ball->getPos(), ball->getVel(), Vector3(0), 0.998, 1.0);
-			tiempogeneracion += tiempototal;
-		}
-		else {
-			aux = new Particle(Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
-			tiempogeneracion += tiempototal;
-		}
+		if (tiempogeneracion >= 0.1) {
+			if (distribucion == GAUSS) {
+				aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
 
-		aux->settiempo(tiempototal);
-		particulas.push_back(aux);
+			}
+			else {
+				if (distribucion == NORMAL) {
+					aux = new Particle(Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
 
+				}
+				else {
+					if (distribucion == TRAYECTORIA) {
+						aux = new Particle(ball->getPos(), ball->getVel(), Vector3(0), 0.998, 1.0);
+
+					}
+				}
+
+			}
+			tiempogeneracion = 0;
+			aux->settiempo(tiempototal);
+			particulas.push_back(aux);
+
+		}
+	}
 }
 
 void Generador::Integrate(double t)
@@ -79,6 +92,15 @@ void Generador::update(double t)
 	for (auto d : p) {
 		particulas.remove(d);
 		delete d;
+	}
+}
+
+void Generador::reset()
+{
+	for (auto p : particulas) {
+		if (p != nullptr) {
+			p->settiempo(-1);
+		}
 	}
 }
 

@@ -64,6 +64,7 @@ Vector3 vel(1, 0, 0);
 RedBall* Rball;
 
 SisParticulas* sistema=new SisParticulas();
+Generador* trayectoria;
 SisFuerzas* fuerzas=new SisFuerzas(sistema);
 GeneradorSolidoRigido* solidGenerator;
 SolidoRigido* ball;
@@ -146,7 +147,8 @@ void initPhysics(bool interactive)
 	gm->setUpLevel(0);
 
 	//Sistema de particulas que dibuja la trayectoria de la bola
-	sistema->addGenerator(Vector3(0, 0, 0), GAUSS, ball);
+	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball);
+	sistema->addGenerator(trayectoria);
 
 	//Escenario principal
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0,-10,0)));
@@ -216,23 +218,30 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
+		trayectoria->parar(false);
+		trayectoria->reset();
 		ball->Shoot();
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 	}
 	case 'U':
 	{
+		trayectoria->parar(true);
 		ball->changeT(toupper(key));
 	}
 	case 'N':
 	{
+
+		trayectoria->parar(true);
 		ball->changeT(toupper(key));
 	}
 	case 'H':
 	{
+		trayectoria->parar(true);
 		ball->changeT(toupper(key));
 	}
 	case 'J':
 	{
+		trayectoria->parar(true);
 		ball->changeT(toupper(key));
 	}
 	default:

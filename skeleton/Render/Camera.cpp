@@ -54,6 +54,7 @@ void Camera::handleMouse(int button, int state, int x, int y)
 	mMouseY = y;
 }
 
+
 bool Camera::handleKey(unsigned char key, int x, int y, float speed)
 {
 	PX_UNUSED(x);

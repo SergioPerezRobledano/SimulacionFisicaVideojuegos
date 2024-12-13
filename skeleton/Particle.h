@@ -1,6 +1,6 @@
 #include "RenderUtils.hpp"
 using namespace physx;
-const double VIDA = 10.0;
+const double VIDA = 3.0;
 class Particle
 {
 public:
