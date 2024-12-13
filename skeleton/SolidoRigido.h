@@ -95,9 +95,7 @@ public:
 			break;
 		}
 	}
-
-protected:
-	virtual PxRigidDynamic* getSolido() {
+	PxRigidDynamic* getSolido() {
 		return solidoR;
 	}
 

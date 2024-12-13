@@ -27,7 +27,7 @@ public:
 	}
 
 	void addGenerator(Vector3 v,tipo t,SolidoRigido* b) {
-		generador.push_back(new Generador(v,t,b));
+		generador.push_back(new Generador(v,t,b,0.0f));
 	}
 
 	void addGenerator(Generador*g) {

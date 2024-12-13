@@ -65,7 +65,9 @@ RedBall* Rball;
 
 SisParticulas* sistema=new SisParticulas();
 Generador* trayectoria;
-SisFuerzas* fuerzas=new SisFuerzas(sistema);
+SisSolidos* sSolidos = new SisSolidos();
+SisFuerzas* fuerzas=new SisFuerzas(sistema,sSolidos);
+
 GeneradorSolidoRigido* solidGenerator;
 SolidoRigido* ball;
 Cesto* canasta;
@@ -139,15 +141,16 @@ void initPhysics(bool interactive)
 	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
 	
 	//Bola del jugador
-	solidGenerator = new GeneradorSolidoRigido(Vector3(0, -10, 0), 1, gScene);
+	solidGenerator = new GeneradorSolidoRigido(Vector3(-20, -10, 0), 1, gScene);
 	solidGenerator->Generate();
 	ball = solidGenerator->getS().front();
+	sSolidos->addSolido(ball);
 
-	gm = new GameManager(ball, canasta, gScene, gPhysics);
+	gm = new GameManager(ball, canasta, gScene, gPhysics,fuerzas,sistema);
 	gm->setUpLevel(0);
 
 	//Sistema de particulas que dibuja la trayectoria de la bola
-	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball);
+	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball,0.1);
 	sistema->addGenerator(trayectoria);
 
 	//Escenario principal
@@ -183,6 +186,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 	sistema->Generate(t);
 	fuerzas->update(t);
+	fuerzas->updatesolidos(t);
 	//fuerzas->updateMuelles(t);
 	sistema->Integrate(t);
 	gm->Update(t);
@@ -218,31 +222,37 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
-		trayectoria->parar(false);
+	
 		trayectoria->reset();
+		trayectoria->parar(false);
 		ball->Shoot();
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
+		break;
 	}
 	case 'U':
 	{
 		trayectoria->parar(true);
 		ball->changeT(toupper(key));
+		break;
 	}
 	case 'N':
 	{
 
 		trayectoria->parar(true);
 		ball->changeT(toupper(key));
+		break;
 	}
 	case 'H':
 	{
 		trayectoria->parar(true);
 		ball->changeT(toupper(key));
+		break;
 	}
 	case 'J':
 	{
 		trayectoria->parar(true);
 		ball->changeT(toupper(key));
+		break;
 	}
 	default:
 		break;

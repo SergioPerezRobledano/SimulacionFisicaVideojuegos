@@ -9,14 +9,14 @@ void Generador::Generate(double t)
 	if (generar) {
 		tiempogeneracion += t;
 		Particle* aux;
-		if (tiempogeneracion >= 0.1) {
+		if (tiempogeneracion >= spawn) {
 			if (distribucion == GAUSS) {
 				aux = new Particle(iniPos, Vector3(generateGausssian(0.0, 2), generateGausssian(20, 2), generateGausssian(0, 2)), Vector3(0, 0, 0), 0.998, 1.0);
 
 			}
 			else {
 				if (distribucion == NORMAL) {
-					aux = new Particle(Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
+					aux = new Particle(Vector3(-40, generateUniform(30, 40), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
 
 				}
 				else {

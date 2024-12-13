@@ -12,7 +12,7 @@ void SisFuerzas::update(double t)
 		for (auto g : generadores) {
 			v += g->setForce(p,t);
 		}
-		std::cout << v.x << " " << v.y << " " << v.z << endl;
+		//std::cout << v.x << " " << v.y << " " << v.z << endl;
 		p->addForce(v);
 	}
 }

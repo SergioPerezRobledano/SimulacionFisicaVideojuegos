@@ -12,7 +12,7 @@ using namespace std;
 class Generador
 {
 public:
-	Generador(Vector3 p,tipo t,SolidoRigido* b) :iniPos(p),tiempototal(0.0),distribucion(t),ball(b) {
+	Generador(Vector3 p,tipo t,SolidoRigido* b,double s) :iniPos(p),tiempototal(0.0),distribucion(t),ball(b),spawn(s) {
 		tiempogeneracion = 0.0;
 		generar = true;
 	};
@@ -47,6 +47,7 @@ private:
 	list<Particle*>particulas;
 	double tiempototal;
 	double tiempogeneracion;
+	double spawn;
 	SolidoRigido* ball;
 };
 

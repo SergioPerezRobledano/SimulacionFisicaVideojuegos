@@ -11,7 +11,7 @@ class SisFuerzas
 
 public:
 
-	SisFuerzas(SisParticulas* p) :sisparticulas(p){};
+	SisFuerzas(SisParticulas* p,SisSolidos* s) :sisparticulas(p),sissolidos(s){};
 
 	void addGenerator(ForceGenerator* g) {
 		generadores.push_back(g);
