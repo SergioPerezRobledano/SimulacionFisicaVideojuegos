@@ -44,6 +44,11 @@ public:
 
 	};
 
+	~SolidoRigido() {
+		solidoR->release();
+		solidoR=nullptr;
+	}
+
 	void setPos(Vector3 v) {
 		solidoR->setGlobalPose(PxTransform(v));
 	}
@@ -51,9 +56,17 @@ public:
 	void setForce(Vector3 f) {
 		solidoR->addForce(f);
 	}
+	
+	void setVel(Vector3 v) {
+		solidoR->setLinearVelocity(v);
+	}
 
 	Vector3 getPos() {
 		return solidoR->getGlobalPose().p;
+	}
+
+	Vector3 getInitPos() {
+		return Initpos.p;
 	}
 
 	Vector3 getVel() {

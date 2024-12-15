@@ -27,7 +27,7 @@ public:
 	}
 
 	void addGenerator(Vector3 v,tipo t,SolidoRigido* b) {
-		generador.push_back(new Generador(v,t,b,0.0f));
+		Levelgenerador.push_back(new Generador(v,t,b,0.0f));
 	}
 
 	void addGenerator(Generador*g) {
@@ -45,6 +45,11 @@ public:
 				l.push_back(p);
 			}
 		}
+		for (auto s : Levelgenerador) {
+			for (auto p : s->getParticulas()) {
+				l.push_back(p);
+			}
+		}
 		for (auto ma : particulasMA) {
 			l.push_back(ma);
 		}
@@ -55,10 +60,16 @@ public:
 	}
 
 	vector<Generador*> getGeneradores() { return generador; };
-
+	void resetLevel() {
+		for (auto p : Levelgenerador){
+			delete p;
+		}
+		Levelgenerador.clear();
+	}
 private:
 	Particle* muelle=nullptr;
 	vector<Generador*>generador;
+	vector<Generador*>Levelgenerador;
 	pair<Particle*, Particle*>particulasM;
 	list<Particle*>particulasMA;
 };
