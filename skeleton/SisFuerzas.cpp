@@ -5,7 +5,7 @@
 void SisFuerzas::update(double t)
 {
 
-	Vector3 v;
+	Vector3 v,m;
 	list<Particle*> aux = sisparticulas->getParticulas();
 	for (auto p : aux) {
 		v = Vector3(0, 0, 0);
@@ -14,6 +14,17 @@ void SisFuerzas::update(double t)
 		}
 		//std::cout << v.x << " " << v.y << " " << v.z << endl;
 		p->addForce(v);
+	}
+	list<Particle*> Vaux = sisparticulas->getVParticulas();
+	for (auto p : Vaux) {
+		m = Vector3(0, 0, 0);
+		if (viento != nullptr) {
+			m += viento->setForce(p, t);
+			p->addForce(m);
+		}
+
+		//std::cout << v.x << " " << v.y << " " << v.z << endl;
+
 	}
 }
 
@@ -24,12 +35,24 @@ void SisFuerzas::updatesolidos(double t)
 	for (auto p : aux) {
 		v = Vector3(0, 0, 0);
 		for (auto g : generadores) {
-			v += g->setForce(p, t);
+			v += (g->setForce(p, t));
 		}
 		//std::cout << v.x << " " << v.y << " " << v.z << endl;
 		p->setForce(v);
 	}
+	Vector3 w;
+	list<SolidoRigido*> Maux = sissolidos->getMSolidos();
+	for (auto p : Maux) {
+		w = Vector3(0, 0, 0);
+		if (mAnclado != nullptr) {
+			w = mAnclado->setForce(p, t)*1000;
+			std::cout << w.x << " " << w.y << " " << w.z << endl;
+		}
+		
+		p->setForce(w);
+	}
 }
+
 
 void SisFuerzas::updateMuelles(double t)
 {

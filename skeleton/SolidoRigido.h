@@ -45,8 +45,10 @@ public:
 	};
 
 	~SolidoRigido() {
+		gScene->removeActor(*solidoR);
 		solidoR->release();
 		solidoR=nullptr;
+		renderItem->release();
 	}
 
 	void setPos(Vector3 v) {
@@ -59,6 +61,7 @@ public:
 	
 	void setVel(Vector3 v) {
 		solidoR->setLinearVelocity(v);
+		solidoR->setAngularVelocity(v);
 	}
 
 	Vector3 getPos() {

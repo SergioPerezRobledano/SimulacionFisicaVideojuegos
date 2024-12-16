@@ -34,6 +34,10 @@ public:
 		generador.push_back(g);
 	}
 
+	void addGeneratorV(Generador* g) {
+		Levelgenerador.push_back(g);
+	}
+
 	void Generate(double t);
 	void Integrate(double t);
 	void update(double t);
@@ -45,13 +49,18 @@ public:
 				l.push_back(p);
 			}
 		}
+
+		for (auto ma : particulasMA) {
+			l.push_back(ma);
+		}
+		return l;
+	}
+	list<Particle*>getVParticulas() {
+		list<Particle*>l;
 		for (auto s : Levelgenerador) {
 			for (auto p : s->getParticulas()) {
 				l.push_back(p);
 			}
-		}
-		for (auto ma : particulasMA) {
-			l.push_back(ma);
 		}
 		return l;
 	}

@@ -65,8 +65,8 @@ RedBall* Rball;
 
 SisParticulas* sistema=new SisParticulas();
 Generador* trayectoria;
-SisSolidos* sSolidos = new SisSolidos();
-SisFuerzas* fuerzas=new SisFuerzas(sistema,sSolidos);
+SisSolidos* sSolidos;
+SisFuerzas* fuerzas;
 
 GeneradorSolidoRigido* solidGenerator;
 SolidoRigido* ball;
@@ -99,7 +99,6 @@ void initPhysics(bool interactive)
 
 	//Fuerzas
 
-	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 	//fuerzas->addGenerator(new GeneradorViento(Vector3(0, 40, 0), Vector3(100, 20, 100), Vector3(40, 0, 0)));
 	//fuerzas->addGenerator(new GeneradorTorbellino(Vector3(0, 40, 0), Vector3(200, 100, 200)));
 	//fuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100),100.0));
@@ -135,30 +134,16 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	sSolidos = new SisSolidos(gScene);
+	fuerzas = new SisFuerzas(sistema, sSolidos);
+	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+
 	//Proyecto
-
-	//Canasta
-	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
-	
-	//Bola del jugador
-	solidGenerator = new GeneradorSolidoRigido(Vector3(-20, -10, 0), 1, gScene);
-	solidGenerator->Generate();
-	ball = solidGenerator->getS().front();
-	sSolidos->addSolido(ball);
-
-	gm = new GameManager(ball, canasta, gScene, gPhysics,fuerzas,sistema);
-	gm->setUpLevel(0);
-
-	//Sistema de particulas que dibuja la trayectoria de la bola
-	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball,0.1);
-	sistema->addGenerator(trayectoria);
-
-	//Escenario principal
-	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0,-10,0)));
-	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50,-10,0)));
-	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50,-10,0)));
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0, -10, 0)));
+	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50, -10, 0)));
+	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50, -10, 0)));
 	auto materialsinrebote = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
-	PxShape* shape = CreateShape(PxBoxGeometry(100, 0.1, 10),materialsinrebote);
+	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 10), materialsinrebote);
 	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
 	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10));
 	suelo->attachShape(*shape);
@@ -168,11 +153,29 @@ void initPhysics(bool interactive)
 	gScene->addActor(*suelo1);
 	gScene->addActor(*suelo2);
 	RenderItem* item;
-	item = new RenderItem(shape, suelo, { 0,0.5,1,1 });
+	item = new RenderItem(shape, suelo, { 0,0.7,0.8,1 });
 	RenderItem* item1;
 	item = new RenderItem(shape1, suelo1, { 0,0.5,0.5,1 });
 	RenderItem* item2;
 	item = new RenderItem(shape2, suelo2, { 0,0.5,0.5,1 });
+	//Canasta
+	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
+	
+	//Bola del jugador
+	solidGenerator = new GeneradorSolidoRigido(Vector3(-20, -10, 0), 1, gScene);
+	solidGenerator->Generate();
+	ball = solidGenerator->getS().front();
+	sSolidos->addSolido(ball);
+
+	gm = new GameManager(ball, canasta, gScene, gPhysics,fuerzas,sistema,sSolidos);
+	gm->setUpLevel();
+
+	//Sistema de particulas que dibuja la trayectoria de la bola
+	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball,0.1);
+	sistema->addGenerator(trayectoria);
+
+	//Escenario principal
+	
 	}
 
 
@@ -252,6 +255,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		trayectoria->parar(true);
 		ball->changeT(toupper(key));
+		break;
+	}
+	case 'R':
+	{
+		gm->clearLevel();
+		//gm->setUpLevel();
 		break;
 	}
 	default:

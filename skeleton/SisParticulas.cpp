@@ -5,6 +5,10 @@ void SisParticulas::Generate(double t)
 	for (auto e : generador) {
 		e->Generate(t);
 	}
+
+	for (auto e : Levelgenerador) {
+		e->Generate(t);
+	}
 }
 
 void SisParticulas::Integrate(double t)

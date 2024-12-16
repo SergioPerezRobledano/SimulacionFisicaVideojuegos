@@ -13,6 +13,8 @@ public:
 		pose = PxTransform(pos);
 		physx::PxVec4 col(1, 1, 1, 1);
 		renderItem = new RenderItem(CreateShape(PxSphereGeometry(0.25)), &pose, col);
+		vida = 3.0;
+
 	};
 	Particle(Vector3 pos, Vector3 Vel, Vector3 a, double d, float m,PxShape* cube, PxVec4 col) {
 		masa = m;
@@ -22,6 +24,7 @@ public:
 		vel = Vel;
 		pose = PxTransform(pos);
 		renderItem = new RenderItem(cube, &pose, col);
+		vida = 3.0;
 	};
 	~Particle() {
 		renderItem->release();
@@ -42,13 +45,15 @@ public:
 
 	double tiempo() { return tvida; }
 
-	void settiempo(double t) { tvida=t+VIDA; }
+	void settiempo(double t) { tvida=t+vida; }
 
+	void setVida(double t) { vida = t; }
 
 	Vector3 getPos() { return pose.p; }
 
 private:
 	double tvida;
+	double vida;
 	double dumping;
 
 	float masa;

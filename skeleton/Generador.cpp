@@ -4,7 +4,7 @@
 
 void Generador::Generate(double t)
 {
-	std::cout << t;
+	//std::cout << t;
 	tiempototal += t;
 	if (generar) {
 		tiempogeneracion += t;
@@ -16,7 +16,8 @@ void Generador::Generate(double t)
 			}
 			else {
 				if (distribucion == NORMAL) {
-					aux = new Particle(Vector3(-40, generateUniform(30, 40), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
+					aux = new Particle(Vector3(-40, generateUniform(30, 60), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
+					aux->setVida(10.0);
 
 				}
 				else {

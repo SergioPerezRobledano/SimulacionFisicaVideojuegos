@@ -11,7 +11,7 @@ public:
 	void Generate() {
 		if (listaSolidos.size() < maxSolid) {
 			//auto aux = new SolidoRigido(PxTransform(Vector3(0, Random(0, 100), 0)), gScene, Vector3(0, -10, 0),Random(0.0,100));
-			auto aux = new SolidoRigido(PxTransform(Vector3(-25,-8, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0),1);
+			auto aux = new SolidoRigido(PxTransform(Vector3(-30,0, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0),1);
 			listaSolidos.push_back(aux);
 		}
 	}

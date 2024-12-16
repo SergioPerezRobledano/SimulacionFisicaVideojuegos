@@ -11,13 +11,17 @@ class SisFuerzas
 
 public:
 
-	SisFuerzas(SisParticulas* p,SisSolidos* s) :sisparticulas(p),sissolidos(s){};
+	SisFuerzas(SisParticulas* p, SisSolidos* s) :sisparticulas(p), sissolidos(s) { viento = nullptr; };
 
 	void addGenerator(ForceGenerator* g) {
 		generadores.push_back(g);
 	}
-	void addGeneratorM(GeneradorMuelle* g) {
-		generadoresM=g;
+	void addGeneratorV(ForceGenerator* g) {
+		generadores.push_back(g);
+		viento = g;
+	}
+	void addGeneratorM(ForceGenerator* g) {
+		mAnclado=g;
 	}
 
 	void update(double t);
@@ -26,6 +30,8 @@ public:
 
 private:
 	vector<ForceGenerator*>generadores;
+	ForceGenerator* viento;
+	ForceGenerator* mAnclado;
 	GeneradorMuelle* generadoresM;
 	SisParticulas* sisparticulas;
 	SisSolidos* sissolidos;
