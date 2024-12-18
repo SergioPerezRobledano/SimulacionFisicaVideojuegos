@@ -20,8 +20,19 @@ public:
 		generadores.push_back(g);
 		viento = g;
 	}
+	void addGeneratorG(ForceGenerator* g) {
+		generadores.push_back(g);
+		gravedad = g;
+	}
 	void addGeneratorM(ForceGenerator* g) {
 		mAnclado=g;
+	}
+
+	void Clear() {
+		generadores.clear();
+		viento = nullptr;
+		gravedad = nullptr;
+		mAnclado = nullptr;
 	}
 
 	void update(double t);
@@ -31,6 +42,7 @@ public:
 private:
 	vector<ForceGenerator*>generadores;
 	ForceGenerator* viento;
+	ForceGenerator* gravedad;
 	ForceGenerator* mAnclado;
 	GeneradorMuelle* generadoresM;
 	SisParticulas* sisparticulas;

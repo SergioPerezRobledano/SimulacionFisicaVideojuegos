@@ -15,7 +15,7 @@ public:
 	}
 
 	Vector3 fuerzaViento(SolidoRigido* p) {
-		return k1 * (viento - p->getVel());
+		return k1 * (viento - p->getLinearVel());
 	}
 
 	Vector3 setForce(Particle* p, double t);

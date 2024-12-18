@@ -16,6 +16,9 @@ void SisParticulas::Integrate(double t)
 	for (auto e : generador) {
 		e->Integrate(t);
 	}
+	for (auto e : Levelgenerador) {
+		e->Integrate(t);
+	}
 	for (auto ma : particulasMA) {
 		ma->integrate(t);
 	}

@@ -16,8 +16,8 @@ void Generador::Generate(double t)
 			}
 			else {
 				if (distribucion == NORMAL) {
-					aux = new Particle(Vector3(-40, generateUniform(30, 60), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, 5);
-					aux->setVida(10.0);
+					aux = new Particle(Vector3(-40, generateUniform(25, 70), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, generateUniform(1, 10), CreateShape(PxSphereGeometry(generateUniform(0.5, 1))), PxVec4{0,0.5,0.4,0.5});
+					aux->setVida(5.0);
 
 				}
 				else {

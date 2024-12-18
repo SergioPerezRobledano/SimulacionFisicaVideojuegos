@@ -20,10 +20,10 @@ void SisFuerzas::update(double t)
 		m = Vector3(0, 0, 0);
 		if (viento != nullptr) {
 			m += viento->setForce(p, t);
-			p->addForce(m);
+			
 		}
-
-		//std::cout << v.x << " " << v.y << " " << v.z << endl;
+		p->addForce(m);
+		//std::cout << m.x << " " << m.y << " " << m.z << endl;
 
 	}
 }
@@ -31,26 +31,42 @@ void SisFuerzas::update(double t)
 void SisFuerzas::updatesolidos(double t)
 {
 	Vector3 v;
-	list<SolidoRigido*> aux = sissolidos->getSolidos();
+	list<SolidoRigido*> aux = sissolidos->getSolidos();   
 	for (auto p : aux) {
 		v = Vector3(0, 0, 0);
 		for (auto g : generadores) {
 			v += (g->setForce(p, t));
 		}
+		if (gravedad != nullptr) {
+			v += gravedad->setForce(p, t);
+		}
 		//std::cout << v.x << " " << v.y << " " << v.z << endl;
 		p->setForce(v);
 	}
+
 	Vector3 w;
 	list<SolidoRigido*> Maux = sissolidos->getMSolidos();
 	for (auto p : Maux) {
 		w = Vector3(0, 0, 0);
 		if (mAnclado != nullptr) {
 			w = mAnclado->setForce(p, t)*1000;
-			std::cout << w.x << " " << w.y << " " << w.z << endl;
+			//std::cout << w.x << " " << w.y << " " << w.z << endl;
 		}
 		
 		p->setForce(w);
 	}
+
+	Vector3 p;
+	auto player = sissolidos->getPlayer();
+	p = Vector3(0, 0, 0);
+	for (auto g : generadores) {
+		if (g != gravedad) {
+			p += g->setForce(player, t);
+			std::cout << p.x << " " << p.y << " " << p.z << endl;
+		}
+	}
+
+	player->setForce(p * 10);
 }
 
 

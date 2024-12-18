@@ -134,9 +134,9 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	sSolidos = new SisSolidos(gScene);
+	sSolidos = new SisSolidos(gScene,gPhysics);
 	fuerzas = new SisFuerzas(sistema, sSolidos);
-	fuerzas->addGenerator(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+	//fuerzas->addGeneratorG(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 
 	//Proyecto
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0, -10, 0)));
@@ -145,7 +145,7 @@ void initPhysics(bool interactive)
 	auto materialsinrebote = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 10), materialsinrebote);
 	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
-	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10));
+	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10), materialsinrebote);
 	suelo->attachShape(*shape);
 	suelo1->attachShape(*shape1);
 	suelo2->attachShape(*shape2);
@@ -162,10 +162,8 @@ void initPhysics(bool interactive)
 	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
 	
 	//Bola del jugador
-	solidGenerator = new GeneradorSolidoRigido(Vector3(-20, -10, 0), 1, gScene);
-	solidGenerator->Generate();
-	ball = solidGenerator->getS().front();
-	sSolidos->addSolido(ball);
+	ball = new SolidoRigido(PxTransform(Vector3(-30, 0, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0), 1);
+	sSolidos->addPlayer(ball);
 
 	gm = new GameManager(ball, canasta, gScene, gPhysics,fuerzas,sistema,sSolidos);
 	gm->setUpLevel();
@@ -260,7 +258,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'R':
 	{
 		gm->clearLevel();
-		//gm->setUpLevel();
+		gm->setUpLevel();
 		break;
 	}
 	default:

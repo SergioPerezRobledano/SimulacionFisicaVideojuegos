@@ -3,7 +3,10 @@
 #include "ForceGenerator.h"
 #include "SisFuerzas.h"
 #include"GeneradorViento.h"
+#include"GeneradorGravitatorio.h"
 #include"GeneradorMuelleAnclado.h"
+#include "RenderUtils.hpp"
+
 
 //#include "Generador.h"
 #include "Cesto.h"
@@ -13,29 +16,34 @@ class GameManager
 {
 public:
 	GameManager(SolidoRigido* p,Cesto* c,PxScene* s, PxPhysics* px,SisFuerzas* f,SisParticulas* pa,SisSolidos* so):player(p),cesto(c),gScene(s),gPhysics(px),sFuerzas(f),sParticulas(pa),sSolidos(so) {
-		currentLevel = 2;
+		currentLevel = 1;
 	};
 	void setUpLevel() {
 		SolidoRigido* aux;
 		switch (currentLevel) {
 		case 0:
-			aux = new SolidoRigido(PxTransform(Vector3(20, -4, 0)), CreateShape(PxBoxGeometry(8, 15, 2), gPhysics->createMaterial(0.0f, 0.0f, 0.0f)), gScene, Vector3(0), 1.0f, { 0.25,1,0.5,1 });
-			//aux->getSolido()->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, true);
-			obstaculosM.push_back(aux);
-
-
+			sFuerzas->addGeneratorG(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+			sSolidos->paredLevel1();
+			for (auto s : sSolidos->getMSolidos()) {
+				obstaculosM.push_back(s);
+			}
 			break;
 		case 1:
-			sol();
+			Level2();
 
 			break;
 		case 2:
-			sSolidos->muelleDemo();
+			sFuerzas->addGeneratorG(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
+			sSolidos->muelleLevel3();
 			sFuerzas->addGeneratorM(new GeneradorMuelleAnclado(1, 5));
+			for (auto s : sSolidos->getMSolidos()) {
+				obstaculosM.push_back(s);
+			}
 			break;
 		}
 	}
-	void sol() {
+	void Level2() {
+		sFuerzas->addGeneratorG(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 		PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(-22, 2, 0)));
 		PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(0, 16, 0)));
 
@@ -49,15 +57,10 @@ public:
 		gScene->addActor(*suelo);
 		gScene->addActor(*suelo1);
 
-		RenderItem* item;
-		item = new RenderItem(shape, suelo, { 0.25,1,0.5,1 });
-		RenderItem* item1;
-		item = new RenderItem(shape1, suelo1, { 0.25,1,0.5,1 });
+		obstaculosInm.push_back({ suelo,new RenderItem(shape, suelo, { 0.25,1,0.5,1 }) });
+		obstaculosInm.push_back({ suelo1,new RenderItem(shape1, suelo1, { 0.25,1,0.5,1 }) });
 
-		obstaculosInm.push_back({ suelo,item });
-		obstaculosInm.push_back({ suelo1,item1 });
-
-		//sParticulas->addGeneratorV(new Generador(Vector3(0), NORMAL, player, 0.005));
+		sParticulas->addGeneratorV(new Generador(Vector3(0), NORMAL, player, 0.005));
 		sFuerzas->addGeneratorV(new GeneradorViento(Vector3(0, 40, 0), Vector3(1000, 20, 100), Vector3(20, 0, 0)));
 	}
 	void Update(double t) {
@@ -68,24 +71,21 @@ public:
 		}
 	}
 	void clearLevel() {
+
 		player->setPos(player->getInitPos());
 		player->setVel(Vector3(0));
+
 		for (auto s : obstaculosInm) {
-			//s.second->release();
-			gScene->removeActor(*s.first);
-			//s.first->release();
-			s.first = nullptr;
-			s.second->release();
-			//s.first->release();
+			DeregisterRenderItem(s.second);
+			s.first->release();
 		}
 		obstaculosInm.clear();
-		for (auto s : obstaculosM)
-		{
-			delete s;
-		}
+
+		sSolidos->Clear();
 		obstaculosM.clear();
 
 		sParticulas->resetLevel();
+		sFuerzas->Clear();
 	}
 private:
 	SolidoRigido* player;

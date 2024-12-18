@@ -45,7 +45,6 @@ public:
 	};
 
 	~SolidoRigido() {
-		gScene->removeActor(*solidoR);
 		solidoR->release();
 		solidoR=nullptr;
 		renderItem->release();
@@ -76,6 +75,10 @@ public:
 		Vector3 aux = (solidoR->getGlobalPose().p - (solidoR->getGlobalPose().p + trayectoria));
 		aux.normalize();
 		return aux*sforce;
+	}
+
+	Vector3 getLinearVel() {
+		return solidoR->getLinearVelocity();
 	}
 
 	void Shoot() {
