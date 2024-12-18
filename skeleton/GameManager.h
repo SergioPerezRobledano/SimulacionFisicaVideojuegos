@@ -4,6 +4,7 @@
 #include "SisFuerzas.h"
 #include"GeneradorViento.h"
 #include"GeneradorGravitatorio.h"
+#include"GeneradorExplosion.h"
 #include"GeneradorMuelleAnclado.h"
 #include "RenderUtils.hpp"
 
@@ -15,8 +16,8 @@ using namespace physx;
 class GameManager
 {
 public:
-	GameManager(SolidoRigido* p,Cesto* c,PxScene* s, PxPhysics* px,SisFuerzas* f,SisParticulas* pa,SisSolidos* so):player(p),cesto(c),gScene(s),gPhysics(px),sFuerzas(f),sParticulas(pa),sSolidos(so) {
-		currentLevel = 1;
+	GameManager(SolidoRigido* p,Cesto* c,PxScene* s, PxPhysics* px,SisFuerzas* f,SisParticulas* pa,SisSolidos* so,Generador* t):player(p),cesto(c),gScene(s),gPhysics(px),sFuerzas(f),sParticulas(pa),sSolidos(so),trayectoria(t) {
+		currentLevel = 2;
 	};
 	void setUpLevel() {
 		SolidoRigido* aux;
@@ -39,6 +40,11 @@ public:
 			for (auto s : sSolidos->getMSolidos()) {
 				obstaculosM.push_back(s);
 			}
+			break;
+		default:
+			sParticulas->addGenerator(new Generador(Vector3(0), FIN, player, 0.005));
+			//sFuerzas->addGenerator(new GeneradorExplosion(Vector3(0, 0, 0), Vector3(100, 100, 100), 100.0));
+
 			break;
 		}
 	}
@@ -65,15 +71,18 @@ public:
 	}
 	void Update(double t) {
 		if (cesto->estaDentro(player->getPos())) {
+			disparar = true;
 			currentLevel++;
 			clearLevel();
 			setUpLevel();
+			trayectoria->parar(true);
 		}
 	}
 	void clearLevel() {
 
 		player->setPos(player->getInitPos());
 		player->setVel(Vector3(0));
+		player->ResetTrayectoria();
 
 		for (auto s : obstaculosInm) {
 			DeregisterRenderItem(s.second);
@@ -87,6 +96,14 @@ public:
 		sParticulas->resetLevel();
 		sFuerzas->Clear();
 	}
+	int getLevel() {
+		return currentLevel;
+	}
+
+	void seyDisp(bool t) {
+		disparar = t;
+	}
+	bool disparar = true;
 private:
 	SolidoRigido* player;
 	Cesto* cesto;
@@ -97,6 +114,8 @@ private:
 	SisSolidos* sSolidos;
 	PxScene* gScene;
 	PxPhysics* gPhysics;
+	Generador* trayectoria;
 	int currentLevel;
+
 };
 

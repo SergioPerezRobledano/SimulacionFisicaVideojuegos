@@ -2,10 +2,10 @@
 #include "Particle.h"
 #include "SolidoRigido.h"
 #include <list>
-const int AREA_Y = 10000, AREA_X = 10000;
+const int AREA_Y = 200, AREA_X = 200;
 enum tipo
 {
-	GAUSS, NORMAL, TRAYECTORIA
+	GAUSS, NORMAL, TRAYECTORIA, FIN
 };
 
 using namespace std;

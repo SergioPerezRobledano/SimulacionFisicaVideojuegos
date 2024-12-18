@@ -19,17 +19,17 @@ public:
 		gScene->addActor(*suelo);
 		gScene->addActor(*suelo1);
 		gScene->addActor(*suelo2);
-		RenderItem* item;
-		item = new RenderItem(shape, suelo, col);
-		RenderItem* item1;
-		item = new RenderItem(shape1, suelo1, col);
-		RenderItem* item2;
-		item = new RenderItem(shape2, suelo2, col);
-		cesto.push_back(suelo);
-		cesto.push_back(suelo1);
-		cesto.push_back(suelo2);
+		cesto.push_back({ suelo,new RenderItem(shape, suelo, col) });
+		cesto.push_back({ suelo1,new RenderItem(shape1, suelo1, col) });
+		cesto.push_back({ suelo2,new RenderItem(shape2, suelo2, col) });
 	};
-	
+	~Cesto() {
+		for (auto s : cesto) {
+			DeregisterRenderItem(s.second);
+			s.first->release();
+		}
+		cesto.clear();
+	}
 	Vector3 getVolumen() {
 		return volumen;
 	}
@@ -40,7 +40,7 @@ public:
 		return (b.x > initPos.x - volumen.x && b.x < initPos.x + volumen.x) && (b.y > initPos.y - volumen.y && b.y < initPos.y + volumen.y);
 	}
 private:
-	std::list<PxRigidStatic*>cesto;
+	std::list<std::pair<PxRigidStatic*,RenderItem*>>cesto;
 	Vector3 volumen;
 	Vector3 initPos;
 };

@@ -17,6 +17,7 @@ public:
 	}
 
 	Vector3 setForce(Particle* p, double t);
+	Vector3 setForce(SolidoRigido* p, double t) { return Vector3(0); }
 
 	Vector3 fuerzaExplosion(Particle* p) {
 		Vector3 aux = { p->getPos().x - initPos.x,p->getPos().y - initPos.y,p->getPos().z - initPos.z };

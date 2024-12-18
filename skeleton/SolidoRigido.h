@@ -46,7 +46,6 @@ public:
 
 	~SolidoRigido() {
 		solidoR->release();
-		solidoR=nullptr;
 		renderItem->release();
 	}
 
@@ -87,6 +86,16 @@ public:
 		solidoR->setLinearVelocity(aux*sforce);
 	}
 
+	void ResetTrayectoria() {
+		sforce = 10.0;
+		trayectoria = Vector3(-5, 0, 0);
+	}
+	void setTrayectoria(int x, int y) {
+		trayectoria.x = x;
+		trayectoria.y = y;
+		sforce = (solidoR->getGlobalPose().p - trayectoria).magnitude()/10;
+	}
+
 	void changeT(char k) {
 		switch (k)
 		{
@@ -114,8 +123,13 @@ public:
 			break;
 		}
 	}
+
 	PxRigidDynamic* getSolido() {
 		return solidoR;
+	}
+
+	RenderItem* getRenderI() {
+		return renderItem;
 	}
 
 private:

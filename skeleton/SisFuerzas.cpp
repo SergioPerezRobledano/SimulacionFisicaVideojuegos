@@ -62,7 +62,7 @@ void SisFuerzas::updatesolidos(double t)
 	for (auto g : generadores) {
 		if (g != gravedad) {
 			p += g->setForce(player, t);
-			std::cout << p.x << " " << p.y << " " << p.z << endl;
+			//std::cout << p.x << " " << p.y << " " << p.z << endl;
 		}
 	}
 

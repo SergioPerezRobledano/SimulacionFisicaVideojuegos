@@ -11,7 +11,7 @@ public:
 		dumping = d;
 		vel = Vel;
 		pose = PxTransform(pos);
-		physx::PxVec4 col(1, 1, 1, 1);
+		physx::PxVec4 col(1, 1, 1, 0.2);
 		renderItem = new RenderItem(CreateShape(PxSphereGeometry(0.25)), &pose, col);
 		vida = 3.0;
 

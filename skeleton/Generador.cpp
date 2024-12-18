@@ -16,7 +16,7 @@ void Generador::Generate(double t)
 			}
 			else {
 				if (distribucion == NORMAL) {
-					aux = new Particle(Vector3(-40, generateUniform(25, 70), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, generateUniform(1, 10), CreateShape(PxSphereGeometry(generateUniform(0.5, 1))), PxVec4{0,0.5,0.4,0.5});
+					aux = new Particle(Vector3(generateUniform(-40, 40), generateUniform(25, 70), 0), Vector3(generateUniform(0, 0), generateUniform(0, 0), generateUniform(0, 0)), Vector3(0, 0, 0), 0.998, generateUniform(1, 10), CreateShape(PxSphereGeometry(generateUniform(0.5, 1))), PxVec4{0,0.5,0.6,1});
 					aux->setVida(5.0);
 
 				}
@@ -24,6 +24,12 @@ void Generador::Generate(double t)
 					if (distribucion == TRAYECTORIA) {
 						aux = new Particle(ball->getPos(), ball->getVel(), Vector3(0), 0.998, 1.0);
 
+					}
+					else {
+						if (distribucion == FIN) {
+							aux = new Particle(Vector3(generateUniform(-10, 10), generateUniform(-10, 10), generateUniform(-10, 10)), Vector3(generateUniform(-5, 5), generateUniform(-5, 5), generateUniform(-5, 5)), Vector3(0, 0, 0), 0.998, generateUniform(1, 10), CreateShape(PxSphereGeometry(generateUniform(0.5, 1))), PxVec4{ generateUniform(0, 1),generateUniform(0, 1),generateUniform(0, 1),1 });
+							aux->setVida(5.0);
+						}
 					}
 				}
 

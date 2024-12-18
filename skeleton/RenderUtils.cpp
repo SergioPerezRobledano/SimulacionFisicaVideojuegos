@@ -4,6 +4,7 @@
 
 #include "core.hpp"
 #include "RenderUtils.hpp"
+#include<iostream>
 
 
 using namespace physx;
@@ -49,7 +50,8 @@ namespace
 
 void motionCallback(int x, int y)
 {
-	sCamera->handleMotion(x, y);
+	//sCamera->handleMotion(x, y);
+	//std::cout << x << " " << y<<std::endl;
 }
 
 void keyboardCallback(unsigned char key, int x, int y)
@@ -63,8 +65,9 @@ void keyboardCallback(unsigned char key, int x, int y)
 
 void mouseCallback(int button, int state, int x, int y)
 {
-	sCamera->handleMouse(button, state, x, y);
-	
+	//sCamera->handleMouse(button, state, x, y);
+	std::cout << x << " " << y <<" "<<state << std::endl;
+
 }
 
 void idleCallback()

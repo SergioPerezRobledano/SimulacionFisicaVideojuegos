@@ -72,12 +72,60 @@ GeneradorSolidoRigido* solidGenerator;
 SolidoRigido* ball;
 Cesto* canasta;
 GameManager* gm;
+std::list<pair< PxRigidStatic*,RenderItem*>>escenario;
+
+bool disparar = true;
+
 //Particle* p ;
 //vector<Proyectil*>canon;
 
 
+void EscenarioPrincipal() {
+
+	//Suelo y paredes
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0, -10, 0)));
+	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50, -10, 0)));
+	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50, -10, 0)));
+	auto materialsinrebote = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
+	PxShape* shape = CreateShape(PxBoxGeometry(60, 1, 9), materialsinrebote);
+	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
+	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10), materialsinrebote);
+	suelo->attachShape(*shape);
+	suelo1->attachShape(*shape1);
+	suelo2->attachShape(*shape2);
+	gScene->addActor(*suelo);
+	gScene->addActor(*suelo1);
+	gScene->addActor(*suelo2);
+	escenario.push_back({ suelo,new RenderItem(shape, suelo, { 0,0.7,0.8,1 }) });
+	escenario.push_back({ suelo1, new RenderItem(shape1, suelo1, { 0,0.5,0.5,1 }) });
+	escenario.push_back({ suelo2, new RenderItem(shape2, suelo2, { 0,0.5,0.5,1 }) });
+
+	//Canasta
+	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
+
+	//Bola del jugador
+	ball = new SolidoRigido(PxTransform(Vector3(-30, 0, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0), 1);
+	sSolidos->addPlayer(ball);
 
 
+
+	//Sistema de particulas que dibuja la trayectoria de la bola
+	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball, 0.1);
+	sistema->addGenerator(trayectoria);
+
+	gm = new GameManager(ball, canasta, gScene, gPhysics, fuerzas, sistema, sSolidos, trayectoria);
+	gm->setUpLevel();
+}
+void RemoveEscenario() {
+	for (auto s : escenario) {
+		DeregisterRenderItem(s.second);
+		s.first->release();
+	}
+	escenario.clear();
+	delete ball;
+	delete canasta;
+
+}
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -138,64 +186,80 @@ void initPhysics(bool interactive)
 	fuerzas = new SisFuerzas(sistema, sSolidos);
 	//fuerzas->addGeneratorG(new GeneradorGravitatorio(Vector3(0, 0, 0), Vector3(100, 100, 100)));
 
-	//Proyecto
-	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0, -10, 0)));
-	PxRigidStatic* suelo1 = gPhysics->createRigidStatic(PxTransform(Vector3(-50, -10, 0)));
-	PxRigidStatic* suelo2 = gPhysics->createRigidStatic(PxTransform(Vector3(50, -10, 0)));
-	auto materialsinrebote = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
-	PxShape* shape = CreateShape(PxBoxGeometry(100, 1, 10), materialsinrebote);
-	PxShape* shape1 = CreateShape(PxBoxGeometry(10, 100, 10));
-	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 100, 10), materialsinrebote);
-	suelo->attachShape(*shape);
-	suelo1->attachShape(*shape1);
-	suelo2->attachShape(*shape2);
-	gScene->addActor(*suelo);
-	gScene->addActor(*suelo1);
-	gScene->addActor(*suelo2);
-	RenderItem* item;
-	item = new RenderItem(shape, suelo, { 0,0.7,0.8,1 });
-	RenderItem* item1;
-	item = new RenderItem(shape1, suelo1, { 0,0.5,0.5,1 });
-	RenderItem* item2;
-	item = new RenderItem(shape2, suelo2, { 0,0.5,0.5,1 });
-	//Canasta
-	canasta = new Cesto(Vector3(4, 4, 0), Vector3(35, -5, 0), { 0,0.2,1,1 }, gScene, gPhysics);
+
+
 	
-	//Bola del jugador
-	ball = new SolidoRigido(PxTransform(Vector3(-30, 0, 0)), CreateShape(PxSphereGeometry(2)), gScene, Vector3(0, 0, 0), 1);
-	sSolidos->addPlayer(ball);
-
-	gm = new GameManager(ball, canasta, gScene, gPhysics,fuerzas,sistema,sSolidos);
-	gm->setUpLevel();
-
-	//Sistema de particulas que dibuja la trayectoria de la bola
-	trayectoria = new Generador(Vector3(0), TRAYECTORIA, ball,0.1);
-	sistema->addGenerator(trayectoria);
-
 	//Escenario principal
-	
-	}
+	EscenarioPrincipal();
 
+
+	}
+void mouseCallback(int button, int state, int x, int y)
+{
+	if (state == 1) {
+		if (gm->disparar) {
+			ball->Shoot();
+			trayectoria->reset();
+			trayectoria->parar(false);
+			gm->disparar = false;
+		}
+
+	}
+	else {
+		if (state == 0) {
+			if (gm->disparar) {
+				trayectoria->parar(true);
+			}
+			
+		}
+	}
+	
+}
+
+void motionCallback(int x, int y)
+{
+	if (gm->disparar) {
+		ball->setTrayectoria(x - 735, 500 - y);
+	}
+}
 
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
 // t: time passed since last call in milliseconds
 void stepPhysics(bool interactive, double t)
 {
-	PX_UNUSED(interactive);
-	gScene->simulate(t);
-	gScene->fetchResults(true);
-	sistema->Generate(t);
-	fuerzas->update(t);
-	fuerzas->updatesolidos(t);
-	//fuerzas->updateMuelles(t);
-	sistema->Integrate(t);
-	gm->Update(t);
-	
+
+	if (gm->getLevel() <= 2) {
+		PX_UNUSED(interactive);
+		gScene->simulate(t);
+		gScene->fetchResults(true);
+		glutMouseFunc(mouseCallback);
+		glutMotionFunc(motionCallback);
+
+		sistema->Generate(t);
+		fuerzas->update(t);
+		fuerzas->updatesolidos(t);
+		sistema->Integrate(t);
+		gm->Update(t);
+
+		display_text = "Nivel:" + to_string(gm->getLevel() + 1);
+	}
+	else {
+		trayectoria->parar(false);
+		disparar = false;
+		PX_UNUSED(interactive);
+		gScene->simulate(t);
+		gScene->fetchResults(true);
+		glutMouseFunc(mouseCallback);
+		glutMotionFunc(motionCallback);
+
+		sistema->Generate(t);
+		sistema->Integrate(t);
+		display_text = "GANASTE";
+	}
 
 
-	//for (auto e : canon)e->Disparo(t);
-	//p->integrate(t);
+
 }
 
 // Function to clean data
@@ -223,42 +287,59 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'P': {
+		if (disparar) {
+			trayectoria->reset();
+			trayectoria->parar(false);
+			ball->Shoot();
+		}
 	
-		trayectoria->reset();
-		trayectoria->parar(false);
-		ball->Shoot();
+
 		//canon.push_back(new Proyectil(250.0,6,GetCamera()->getDir(),camera.p));
 		break;
 	}
 	case 'U':
 	{
-		trayectoria->parar(true);
-		ball->changeT(toupper(key));
+		if (gm->disparar) {
+			trayectoria->parar(true);
+			ball->changeT(toupper(key));
+		}
+
 		break;
 	}
 	case 'N':
 	{
+		if (gm->disparar) {
+			trayectoria->parar(true);
+			ball->changeT(toupper(key));
+		}
 
-		trayectoria->parar(true);
-		ball->changeT(toupper(key));
 		break;
 	}
 	case 'H':
 	{
-		trayectoria->parar(true);
-		ball->changeT(toupper(key));
+		if (gm->disparar) {
+			trayectoria->parar(true);
+			ball->changeT(toupper(key));
+		}
+
 		break;
 	}
 	case 'J':
 	{
-		trayectoria->parar(true);
-		ball->changeT(toupper(key));
+		if (gm->disparar) {
+			trayectoria->parar(true);
+			ball->changeT(toupper(key));
+		}
+
 		break;
 	}
 	case 'R':
 	{
 		gm->clearLevel();
 		gm->setUpLevel();
+		trayectoria->parar(true);
+		gm->disparar = true;
+
 		break;
 	}
 	default:
