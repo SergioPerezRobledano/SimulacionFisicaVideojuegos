@@ -17,7 +17,7 @@ class GameManager
 {
 public:
 	GameManager(SolidoRigido* p,Cesto* c,PxScene* s, PxPhysics* px,SisFuerzas* f,SisParticulas* pa,SisSolidos* so,Generador* t):player(p),cesto(c),gScene(s),gPhysics(px),sFuerzas(f),sParticulas(pa),sSolidos(so),trayectoria(t) {
-		currentLevel = 2;
+		currentLevel = 0;
 	};
 	void setUpLevel() {
 		SolidoRigido* aux;
